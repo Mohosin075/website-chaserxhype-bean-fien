@@ -23,28 +23,11 @@ import {
     Globe,
     AtSign
 } from "lucide-react";
-
-// Menu Item interface for cart compatibility
-interface MenuItem {
-    id: string;
-    name: string;
-    price: number;
-    description: string;
-    category: "espresso" | "coldbrew" | "seasonal" | "bakery";
-    image: string;
-}
-
-interface CustomCartItem {
-    id: string;
-    item: MenuItem;
-    quantity: number;
-    size: "small" | "medium" | "large";
-    milk: "whole" | "oat" | "almond" | "coconut";
-    addons: string[];
-    instructions: string;
-    finalPrice: number;
-    isGiftCard?: boolean;
-}
+import { MenuItem, CustomCartItem } from "@/types/menu";
+import { useCart } from "@/hooks/useCart";
+import Navbar from "@/components/Navbar";
+import Footer from "@/components/Footer";
+import CartDrawer from "@/components/CartDrawer";
 
 const cardDesigns = [
     {
@@ -74,8 +57,6 @@ export default function GiftCardsPage() {
     const dispatch = useAppDispatch();
     const isAuthenticated = useAppSelector(selectIsAuthenticated);
     const [mounted, setMounted] = useState(false);
-    const [cart, setCart] = useState<CustomCartItem[]>([]);
-    const [isCartOpen, setIsCartOpen] = useState(false);
 
     // Page view state: "purchase" or "balance"
     const [viewMode, setViewMode] = useState<"purchase" | "balance">("purchase");
@@ -98,56 +79,11 @@ export default function GiftCardsPage() {
     // Redemption Code State
     const [redeemCode, setRedeemCode] = useState("");
 
-    // Success overlay / notification
-    const [notification, setNotification] = useState<string | null>(null);
+    const { cart, addToCart, showNotification } = useCart();
 
     useEffect(() => {
         setMounted(true);
-        // Sync cart from sessionStorage
-        const savedCart = sessionStorage.getItem("bf_cart_custom");
-        if (savedCart) {
-            try {
-                setCart(JSON.parse(savedCart));
-            } catch (e) {
-                console.error("Failed to parse cart", e);
-            }
-        }
     }, []);
-
-    const saveCart = (newCart: CustomCartItem[]) => {
-        setCart(newCart);
-        sessionStorage.setItem("bf_cart_custom", JSON.stringify(newCart));
-    };
-
-    const showNotification = (msg: string) => {
-        setNotification(msg);
-        setTimeout(() => {
-            setNotification(null);
-        }, 3000);
-    };
-
-    const updateQuantity = (itemId: string, delta: number) => {
-        const updated = cart.map(i => {
-            if (i.id === itemId) {
-                const newQty = i.quantity + delta;
-                return newQty > 0 ? { ...i, quantity: newQty } : null;
-            }
-            return i;
-        }).filter(Boolean) as CustomCartItem[];
-        saveCart(updated);
-    };
-
-    const removeFromCart = (itemId: string) => {
-        const updated = cart.filter(i => i.id !== itemId);
-        saveCart(updated);
-    };
-
-    const handleCheckout = () => {
-        if (cart.length === 0) return;
-        showNotification("Checkout successful! Your coffee is brewing.");
-        saveCart([]);
-        setIsCartOpen(false);
-    };
 
     // Add Gift Card to Cart
     const handleAddGiftCardToCart = (e: React.FormEvent) => {
@@ -157,12 +93,10 @@ export default function GiftCardsPage() {
         const cardValue = amountPreset === "custom" ? parseFloat(customAmountVal) : amountPreset;
         
         if (!cardValue || isNaN(cardValue) || cardValue <= 0) {
-            showNotification("Please select or enter a valid gift card amount.");
             return;
         }
 
         if (!recipientName.trim() || !recipientEmail.trim()) {
-            showNotification("Recipient name and email are required.");
             return;
         }
 
@@ -185,8 +119,7 @@ export default function GiftCardsPage() {
             isGiftCard: true
         };
 
-        saveCart([...cart, newGiftCardItem]);
-        showNotification(`Added $${cardValue.toFixed(2)} Gift Card for ${recipientName} to Cart`);
+        addToCart(newGiftCardItem);
 
         // Reset form
         setRecipientName("");
@@ -199,19 +132,7 @@ export default function GiftCardsPage() {
     // Handle Code Redemption
     const handleRedeemCode = (e: React.FormEvent) => {
         e.preventDefault();
-        
-        if (!redeemCode.trim()) {
-            showNotification("Please enter a valid code.");
-            return;
-        }
-
-        const codeClean = redeemCode.trim().replace(/-/g, "");
-        if (codeClean.length < 8) {
-            showNotification("Invalid code format. Codes should be 16-digits.");
-            return;
-        }
-
-        showNotification("Success! $25.00 has been redeemed and added to your balance!");
+        if (!redeemCode.trim()) return;
         setCardBalance(prev => prev + 25.0);
         setViewMode("balance");
         setRedeemCode("");
@@ -221,87 +142,18 @@ export default function GiftCardsPage() {
     const handleSaveNickname = () => {
         if (tempNickname.trim()) {
             setCardNickname(tempNickname.trim());
-            showNotification("Card renamed successfully!");
         }
         setIsRenaming(false);
     };
 
-    const totalCartItems = cart.reduce((sum, item) => sum + item.quantity, 0);
-    const cartSubtotal = cart.reduce((sum, item) => sum + (item.finalPrice * item.quantity), 0);
     const currentCardValue = amountPreset === "custom" ? parseFloat(customAmountVal) || 0 : amountPreset;
 
     if (!mounted) return null;
 
     return (
         <div className="min-h-screen text-[#2C1A14] bg-[#FAF6F0] relative selection:bg-[#C07C4A] selection:text-[#FAF6F0] scroll-smooth font-sans">
-            {/* Notification Toast */}
-            {notification && (
-                <div className="fixed bottom-5 right-5 z-50 bg-[#C07C4A] text-[#140A07] font-semibold px-5 py-3 rounded-xl shadow-2xl flex items-center gap-2 border border-[#FAF6F0]/20 animate-bounce">
-                    <Check className="w-4 h-4" />
-                    <span>{notification}</span>
-                </div>
-            )}
-
             {/* Header Navigation */}
-            <header className="relative z-40 border-b border-[#2C1A14]/10 backdrop-blur-md bg-[#FAF6F0]/85 sticky top-0 transition-all duration-300">
-                <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
-                    {/* Logo */}
-                    <Link href="/" className="flex items-center gap-3 group">
-                        <div className="w-12 h-12 rounded-full overflow-hidden bg-[#2C1711] border border-[#C07C4A]/40 flex items-center justify-center relative transition-transform duration-300 group-hover:scale-105">
-                            <img src="/coffee_bean_mascot.png" alt="Bean Fien Logo" className="w-full h-full object-cover p-1" />
-                        </div>
-                        <div className="hidden sm:block text-left">
-                            <span className="font-serif text-lg font-bold tracking-wider block leading-none text-[#2C1A14]">Bean Fien</span>
-                            <span className="text-[9px] uppercase tracking-widest text-[#C07C4A] font-bold">Specialty Coffee</span>
-                        </div>
-                    </Link>
-
-                    {/* Desktop Menu */}
-                    <nav className="hidden md:flex items-center gap-8 text-sm font-semibold tracking-wider">
-                        <Link href="/" className="text-[#2C1A14] hover:text-[#C07C4A] transition-colors pb-1 border-b-2 border-transparent hover:border-[#C07C4A]/40">Home</Link>
-                        <Link href="/menu" className="text-[#2C1A14] hover:text-[#C07C4A] transition-colors pb-1 border-b-2 border-transparent hover:border-[#C07C4A]/40">Menu</Link>
-                        <Link href="/rewards" className="text-[#2C1A14] hover:text-[#C07C4A] transition-colors pb-1 border-b-2 border-transparent hover:border-[#C07C4A]/40">Rewards</Link>
-                        <Link href="/gift-cards" className="text-[#C07C4A] transition-colors border-b-2 border-[#C07C4A] pb-1">Gift Cards</Link>
-                    </nav>
-
-                    {/* Right utility buttons */}
-                    <div className="flex items-center gap-6">
-                        {/* Cart Button */}
-                        <button 
-                            onClick={() => setIsCartOpen(true)}
-                            className="p-2 hover:bg-[#2C1A14]/5 transition-colors relative group"
-                        >
-                            <ShoppingCart className="w-6 h-6 text-[#2C1A14] group-hover:text-[#C07C4A] transition-colors" />
-                            {totalCartItems > 0 && (
-                                <span className="absolute -top-1.5 -right-1.5 bg-[#C07C4A] text-[#140A07] text-[10px] font-bold w-5 h-5 rounded-full flex items-center justify-center border border-[#FAF6F0] animate-pulse">
-                                    {totalCartItems}
-                                </span>
-                            )}
-                        </button>
-
-                        {/* Auth Button */}
-                        {isAuthenticated ? (
-                            <button 
-                                onClick={() => {
-                                    dispatch(logout());
-                                    showNotification("Successfully logged out");
-                                    router.push("/auth/login");
-                                }}
-                                className="bg-[#2C120C] hover:bg-[#4A241A] text-[#FAF6F0] text-sm font-semibold tracking-wide px-6 py-2.5 rounded-full transition-colors"
-                            >
-                                Sign Out
-                            </button>
-                        ) : (
-                            <Link 
-                                href="/auth/login"
-                                className="bg-[#C07C4A] hover:bg-[#A66637] text-white text-sm font-semibold tracking-wide px-6 py-2.5 rounded-full transition-colors text-center"
-                            >
-                                Sign In
-                            </Link>
-                        )}
-                    </div>
-                </div>
-            </header>
+            <Navbar theme="light" />
 
             {/* HERO / LANDING SECTION (Reference Image 3 & 5) */}
             <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 text-left">
@@ -806,162 +658,10 @@ export default function GiftCardsPage() {
             </section>
 
             {/* Footer Section */}
-            <footer className="relative z-30 bg-[#4E281F] text-[#FAF6F0] py-16 px-4 md:px-8 border-t border-white/5 overflow-hidden">
-                <div className="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-8 relative z-10">
-                    <div className="text-center md:text-left">
-                        <p className="text-sm text-[#FAF6F0]/80 leading-relaxed font-sans font-light">
-                            Crafting aesthetic experiences, one bean at a time.<br />
-                            Designed for the modern aficionado.
-                        </p>
-                    </div>
-
-                    <div className="flex flex-wrap justify-center gap-6 md:gap-8 text-sm font-semibold tracking-wide text-[#FAF6F0]/90">
-                        <Link href="#" className="hover:text-[#C07C4A] transition-colors">Privacy Policy</Link>
-                        <Link href="#" className="hover:text-[#C07C4A] transition-colors">Terms of Service</Link>
-                        <Link href="#" className="hover:text-[#C07C4A] transition-colors">Contact Us</Link>
-                    </div>
-
-                    <div className="flex gap-4">
-                        <Link href="#" className="w-10 h-10 rounded-full border border-white/20 flex items-center justify-center text-[#FAF6F0]/80 hover:text-white hover:border-white transition-all hover:scale-105">
-                            <Globe className="w-4 h-4 stroke-[1.5]" />
-                        </Link>
-                        <Link href="#" className="w-10 h-10 rounded-full border border-white/20 flex items-center justify-center text-[#FAF6F0]/80 hover:text-white hover:border-white transition-all hover:scale-105">
-                            <AtSign className="w-4 h-4 stroke-[1.5]" />
-                        </Link>
-                    </div>
-                </div>
-
-                <div className="max-w-7xl mx-auto mt-16 pt-8 border-t border-white/5 flex flex-col items-center justify-center relative z-10 text-center">
-                    <h2 className="font-sans font-black text-[70px] sm:text-[100px] md:text-[130px] leading-none text-white/5 tracking-wider select-none mb-3 uppercase">
-                        Bean Fien
-                    </h2>
-                    <p className="text-[11px] text-[#FAF6F0]/65 font-medium tracking-wide">
-                        © 2026 Bean Fien. All rights reserved.
-                    </p>
-                </div>
-            </footer>
+            <Footer theme="light" />
 
             {/* Shopping Cart Drawer */}
-            {isCartOpen && (
-                <div className="fixed inset-0 z-50 flex justify-end">
-                    <div 
-                        onClick={() => setIsCartOpen(false)}
-                        className="fixed inset-0 bg-black/60 backdrop-blur-sm transition-opacity" 
-                    />
-
-                    <div className="relative w-full max-w-md bg-[#1E0F0B] h-full shadow-2xl p-6 flex flex-col justify-between border-l border-[#C07C4A]/20 animate-in slide-in-from-right duration-300">
-                        {/* Header */}
-                        <div className="flex justify-between items-center pb-5 border-b border-white/5">
-                            <div className="flex items-center gap-2">
-                                <ShoppingCart className="w-5 h-5 text-[#C07C4A]" />
-                                <h3 className="font-serif text-lg font-bold text-white">Your Cart ({totalCartItems})</h3>
-                            </div>
-                            <button 
-                                onClick={() => setIsCartOpen(false)}
-                                className="p-1.5 rounded-full hover:bg-white/5 text-white/70 hover:text-white transition-colors"
-                            >
-                                <X className="w-5 h-5" />
-                            </button>
-                        </div>
-
-                        {/* Cart Items List */}
-                        <div className="flex-1 overflow-y-auto py-5 space-y-4 pr-1">
-                            {cart.length > 0 ? (
-                                cart.map((cartItem) => (
-                                    <div 
-                                        key={cartItem.id}
-                                        className="flex gap-4 bg-[#140A07] p-3.5 rounded-2xl border border-white/5 text-left items-center justify-between"
-                                    >
-                                        <div className="w-16 h-16 rounded-xl overflow-hidden bg-[#24130F] flex-shrink-0">
-                                            <img src={cartItem.item.image} alt={cartItem.item.name} className="w-full h-full object-cover" />
-                                        </div>
-                                        <div className="flex-1 space-y-1">
-                                            <h4 className="text-xs font-bold text-white truncate max-w-[130px]">{cartItem.item.name}</h4>
-                                            
-                                            {cartItem.isGiftCard ? (
-                                                <p className="text-[10px] text-[#C07C4A] font-semibold leading-none">
-                                                    Digital Gifting
-                                                </p>
-                                            ) : (
-                                                <p className="text-[10px] text-white/50 leading-none">
-                                                    Size: <span className="capitalize">{cartItem.size}</span> | Milk: <span className="capitalize">{cartItem.milk}</span>
-                                                </p>
-                                            )}
-
-                                            {cartItem.addons.length > 0 && (
-                                                <p className="text-[9px] text-[#C07C4A] truncate max-w-[150px]">
-                                                    + {cartItem.addons.join(", ")}
-                                                </p>
-                                            )}
-                                            <p className="text-xs font-bold text-[#C07C4A]">${cartItem.finalPrice.toFixed(2)}</p>
-                                            
-                                            {/* Quantity Adjuster */}
-                                            <div className="flex items-center gap-2.5 pt-1">
-                                                <button 
-                                                    onClick={() => updateQuantity(cartItem.id, -1)}
-                                                    className="w-5 h-5 rounded bg-white/5 hover:bg-white/10 flex items-center justify-center transition-colors text-white"
-                                                >
-                                                    <Minus className="w-3 h-3" />
-                                                </button>
-                                                <span className="text-xs font-bold text-white">{cartItem.quantity}</span>
-                                                <button 
-                                                    onClick={() => updateQuantity(cartItem.id, 1)}
-                                                    className="w-5 h-5 rounded bg-white/5 hover:bg-white/10 flex items-center justify-center transition-colors text-white"
-                                                >
-                                                    <Plus className="w-3 h-3" />
-                                                </button>
-                                            </div>
-                                        </div>
-                                        <button 
-                                            onClick={() => removeFromCart(cartItem.id)}
-                                            className="p-2 text-white/40 hover:text-red-400 transition-colors"
-                                            title="Remove Item"
-                                        >
-                                            <Trash2 className="w-4 h-4" />
-                                        </button>
-                                    </div>
-                                ))
-                            ) : (
-                                <div className="flex flex-col items-center justify-center h-60 text-white/40 space-y-3">
-                                    <ShoppingCart className="w-10 h-10 stroke-1" />
-                                    <p className="text-sm font-semibold">Your cart is empty.</p>
-                                    <Link 
-                                        href="/menu"
-                                        onClick={() => setIsCartOpen(false)}
-                                        className="text-xs font-bold text-[#C07C4A] hover:underline"
-                                    >
-                                        Browse the Menu
-                                    </Link>
-                                </div>
-                            )}
-                        </div>
-
-                        {/* Footer Summary */}
-                        <div className="pt-5 border-t border-white/5 space-y-4">
-                            <div className="flex justify-between items-center text-sm font-semibold">
-                                <span className="text-white/60">Subtotal</span>
-                                <span className="text-white text-base font-bold">${cartSubtotal.toFixed(2)}</span>
-                            </div>
-                            <div className="flex justify-between items-center text-xs text-white/40">
-                                <span>Taxes and service fees calculated at checkout</span>
-                            </div>
-                            <button
-                                onClick={handleCheckout}
-                                disabled={cart.length === 0}
-                                className={`
-                                    w-full py-4 rounded-xl text-xs font-bold uppercase tracking-widest transition-all duration-300
-                                    ${cart.length > 0 
-                                        ? "bg-[#C07C4A] text-[#140A07] hover:scale-[1.02] cursor-pointer shadow-lg shadow-[#C07C4A]/10" 
-                                        : "bg-white/5 text-white/30 cursor-not-allowed border border-white/5"
-                                    }
-                                `}
-                            >
-                                Checkout & Buy
-                            </button>
-                        </div>
-                    </div>
-                </div>
-            )}
+            <CartDrawer theme="light" />
         </div>
     );
 }

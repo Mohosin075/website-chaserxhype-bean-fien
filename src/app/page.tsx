@@ -7,7 +7,6 @@ import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import { logout, selectIsAuthenticated } from "@/redux/features/auth/authSlice";
 import { 
     ShoppingBag, 
-    ShoppingCart,
     ChevronDown, 
     Plus, 
     Minus, 
@@ -25,65 +24,21 @@ import {
     Globe,
     AtSign
 } from "lucide-react";
-
-// Menu Items Interface
-interface MenuItem {
-    id: string;
-    name: string;
-    price: number;
-    description: string;
-    category: "hot" | "iced" | "blended" | "bakery";
-    image: string;
-}
-
-// Full Menu Items List including "The Daily Grind" items
-const menuItems: MenuItem[] = [
-    // Daily Grind (Featured)
-    { id: "dg1", name: "Nitro Velvet", price: 6.50, description: "12-hour cold extraction infused with nitrogen for a creamy, stout-like finish.", category: "iced", image: "https://images.unsplash.com/photo-1461023058943-07fcbe16d735?auto=format&fit=crop&q=80&w=500" },
-    { id: "dg2", name: "Oat Silk Latte", price: 5.75, description: "Double ristretto shot paired with micro-foamed premium oat milk.", category: "hot", image: "https://images.unsplash.com/photo-1541167760496-1628856ab772?auto=format&fit=crop&q=80&w=500" },
-    { id: "dg3", name: "Citrus Ember", price: 7.00, description: "A warming blend of spiced espresso and blood orange reduction.", category: "hot", image: "https://images.unsplash.com/photo-1513530534585-c7b1394c6d51?auto=format&fit=crop&q=80&w=500" },
-    
-    // Hot Drinks
-    { id: "h1", name: "Classic Flat White", price: 4.50, description: "Smooth ristretto espresso with silky steamed milk.", category: "hot", image: "https://images.unsplash.com/photo-1577968897966-3d4325b36b61?auto=format&fit=crop&q=80&w=500" },
-    { id: "h2", name: "Caramel Macchiato", price: 5.20, description: "Freshly steamed milk with vanilla-flavored syrup, marked with espresso.", category: "hot", image: "https://images.unsplash.com/photo-1485808191679-5f86510681a2?auto=format&fit=crop&q=80&w=500" },
-    { id: "h3", name: "Cortado", price: 4.00, description: "Equal parts espresso and warm milk to reduce the acidity.", category: "hot", image: "https://images.unsplash.com/photo-151097252790b-af4f90267300?auto=format&fit=crop&q=80&w=500" },
-    
-    // Iced
-    { id: "i1", name: "Swirled Iced Latte", price: 4.75, description: "Rich espresso over ice, swirled with organic whole milk and honey.", category: "iced", image: "https://images.unsplash.com/photo-1517701604599-bb29b565090c?auto=format&fit=crop&q=80&w=500" },
-    { id: "i2", name: "Cold Brew Tonic", price: 5.50, description: "Slow-steeped cold brew coffee topped with premium tonic and lime.", category: "iced", image: "https://images.unsplash.com/photo-1513530534585-c7b1394c6d51?auto=format&fit=crop&q=80&w=500" },
-    { id: "i3", name: "Shakerato", price: 4.80, description: "Espresso shaken violently with ice and simple syrup, served frothy.", category: "iced", image: "https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?auto=format&fit=crop&q=80&w=500" },
-    
-    // Blended
-    { id: "b1", name: "Hazelnut Frappe", price: 5.75, description: "Blended coffee, milk, and hazelnut syrup, finished with whipped cream.", category: "blended", image: "https://images.unsplash.com/photo-1572490122747-3968b75cc699?auto=format&fit=crop&q=80&w=500" },
-    { id: "b2", name: "Matcha Mint Blend", price: 5.90, description: "Creamy Japanese matcha blended with fresh mint and ice.", category: "blended", image: "https://images.unsplash.com/photo-1536256263959-770b48d82b0a?auto=format&fit=crop&q=80&w=500" },
-    
-    // Bakery
-    { id: "k1", name: "Butter Croissant", price: 3.75, description: "Flaky, golden-brown puff pastry baked fresh daily.", category: "bakery", image: "https://images.unsplash.com/photo-1555507036-ab1f4038808a?auto=format&fit=crop&q=80&w=500" },
-    { id: "k2", name: "Pistachio Almond Tart", price: 4.50, description: "Sweet crust filled with almond cream and chopped roasted pistachios.", category: "bakery", image: "https://images.unsplash.com/photo-1509440159596-0249088772ff?auto=format&fit=crop&q=80&w=500" }
-];
-
-interface CustomCartItem {
-    id: string; // Unique instance id
-    item: MenuItem;
-    quantity: number;
-    size: "small" | "medium" | "large";
-    milk: "whole" | "oat" | "almond" | "coconut";
-    addons: string[];
-    instructions: string;
-    finalPrice: number;
-}
+import { MenuItem, CustomCartItem } from "@/types/menu";
+import { menuItems } from "@/constants/menu";
+import { useCart } from "@/hooks/useCart";
+import Navbar from "@/components/Navbar";
+import Footer from "@/components/Footer";
+import CartDrawer from "@/components/CartDrawer";
 
 export default function WebsiteHome() {
     const router = useRouter();
     const dispatch = useAppDispatch();
     const isAuthenticated = useAppSelector(selectIsAuthenticated);
     const [mounted, setMounted] = useState(false);
-    const [cart, setCart] = useState<CustomCartItem[]>([]);
-    const [isCartOpen, setIsCartOpen] = useState(false);
     const [menuTab, setMenuTab] = useState<"hot" | "iced" | "blended" | "bakery">("hot");
     
     // User / Profile Dropdown State
-    const [isProfileOpen, setIsProfileOpen] = useState(false);
     const [userName, setUserName] = useState("Admin");
     const [userRole, setUserRole] = useState("Super Admin");
     const [userPhoto, setUserPhoto] = useState("");
@@ -99,8 +54,7 @@ export default function WebsiteHome() {
     const [gcRecipient, setGcRecipient] = useState("");
     const [gcSuccess, setGcSuccess] = useState(false);
 
-    // Success overlay / notification
-    const [notification, setNotification] = useState<string | null>(null);
+    const { cart, addToCart, updateQuantity, showNotification } = useCart();
 
     useEffect(() => {
         setMounted(true);
@@ -111,25 +65,9 @@ export default function WebsiteHome() {
         if (savedName) setUserName(savedName);
         if (savedRole) setUserRole(savedRole);
         if (savedPhoto) setUserPhoto(savedPhoto);
-
-        // Load cart from sessionStorage if available
-        const savedCart = sessionStorage.getItem("bf_cart_custom");
-        if (savedCart) {
-            try {
-                setCart(JSON.parse(savedCart));
-            } catch (e) {
-                console.error("Failed to parse cart session", e);
-            }
-        }
     }, []);
 
-    // Save cart to session storage
-    const saveCart = (newCart: CustomCartItem[]) => {
-        setCart(newCart);
-        sessionStorage.setItem("bf_cart_custom", JSON.stringify(newCart));
-    };
-
-    const addToCart = (item: MenuItem) => {
+    const handleAddToCart = (item: MenuItem) => {
         const existing = cart.find(i => 
             i.item.id === item.id && 
             i.size === "small" && 
@@ -137,12 +75,7 @@ export default function WebsiteHome() {
             i.addons.length === 0
         );
         if (existing) {
-            const updated = cart.map(i => 
-                (i.item.id === item.id && i.size === "small" && i.milk === "whole" && i.addons.length === 0)
-                    ? { ...i, quantity: i.quantity + 1 } 
-                    : i
-            );
-            saveCart(updated);
+            updateQuantity(existing.id, 1);
         } else {
             const newCartItem: CustomCartItem = {
                 id: `${item.id}-${Date.now()}`,
@@ -154,39 +87,8 @@ export default function WebsiteHome() {
                 instructions: "",
                 finalPrice: item.price
             };
-            saveCart([...cart, newCartItem]);
+            addToCart(newCartItem);
         }
-        showNotification(`Added ${item.name} to Cart`);
-    };
-
-    const updateQuantity = (itemId: string, delta: number) => {
-        const updated = cart.map(i => {
-            if (i.id === itemId) {
-                const newQuantity = i.quantity + delta;
-                return newQuantity > 0 ? { ...i, quantity: newQuantity } : null;
-            }
-            return i;
-        }).filter(Boolean) as CustomCartItem[];
-        saveCart(updated);
-    };
-
-    const removeFromCart = (itemId: string) => {
-        const updated = cart.filter(i => i.id !== itemId);
-        saveCart(updated);
-    };
-
-    const showNotification = (msg: string) => {
-        setNotification(msg);
-        setTimeout(() => {
-            setNotification(null);
-        }, 3000);
-    };
-
-    const handleCheckout = () => {
-        if (cart.length === 0) return;
-        showNotification("Checkout successful! Your coffee is brewing.");
-        saveCart([]);
-        setIsCartOpen(false);
     };
 
     const claimReward = () => {
@@ -208,9 +110,6 @@ export default function WebsiteHome() {
         showNotification(`Gift Card of $${gcCustomAmount ? gcCustomAmount : gcAmount} sent to ${gcRecipient || "recipient"}!`);
     };
 
-    const totalCartItems = cart.reduce((sum, item) => sum + item.quantity, 0);
-    const cartSubtotal = cart.reduce((sum, item) => sum + (item.finalPrice * item.quantity), 0);
-
     if (!mounted) return null;
 
     return (
@@ -229,79 +128,8 @@ export default function WebsiteHome() {
             {/* Ambient Spotlight Radial Glow */}
             <div className="absolute inset-0 pointer-events-none bg-[radial-gradient(circle_at_35%_25%,_rgba(224,99,40,0.14)_0%,_rgba(8,4,3,0.99)_75%)]" />
 
-            {/* Notification Toast */}
-            {notification && (
-                <div className="fixed bottom-5 right-5 z-50 bg-[#E05A2B] text-[#080403] font-bold px-5 py-3 rounded-xl shadow-2xl flex items-center gap-2 animate-bounce border border-[#FAF6F0]/20">
-                    <Check className="w-4 h-4" />
-                    <span>{notification}</span>
-                </div>
-            )}
-
             {/* Header Navigation */}
-            <header className="relative z-45 bg-transparent sticky top-0 transition-all duration-300">
-                <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-24 flex items-center justify-between">
-                    {/* Logo */}
-                    <Link href="/" className="flex items-center gap-3 group">
-                        <div className="w-16 h-16 rounded-full overflow-hidden bg-[#2C1711]/50 border border-white/20 flex items-center justify-center relative transition-transform duration-300 group-hover:scale-105">
-                            <img src="/coffee_bean_mascot.png" alt="Bean Fien Logo" className="w-full h-full object-cover p-1.5" />
-                        </div>
-                    </Link>
-
-                    {/* Desktop Menu */}
-                    <nav className="hidden md:flex items-center gap-8 text-sm font-medium tracking-wide">
-                        <Link href="/" className="relative text-[#E05A2B] hover:text-[#E05A2B] transition-colors pb-1.5">
-                            Home
-                            <span className="absolute bottom-0 left-0 right-0 h-[1.5px] bg-[#E05A2B] rounded-full" />
-                        </Link>
-                        <Link href="/menu" className="text-[#D4C5B9] hover:text-white transition-colors pb-1.5">
-                            Menu
-                        </Link>
-                        <Link href="/rewards" className="text-[#D4C5B9] hover:text-white transition-colors pb-1.5">
-                            Rewards
-                        </Link>
-                        <Link href="/gift-cards" className="text-[#D4C5B9] hover:text-white transition-colors pb-1.5">
-                            Gift Cards
-                        </Link>
-                    </nav>
-
-                    {/* Right utility buttons */}
-                    <div className="flex items-center gap-6">
-                        {/* Cart Button */}
-                        <button 
-                            onClick={() => setIsCartOpen(true)}
-                            className="p-2 hover:bg-white/5 rounded-full transition-colors relative group"
-                        >
-                            <ShoppingCart className="w-6 h-6 text-[#FAF6F0] group-hover:text-[#E05A2B] transition-colors" />
-                            {totalCartItems > 0 && (
-                                <span className="absolute -top-1 -right-1 bg-[#E05A2B] text-[#080403] text-[10px] font-bold w-5 h-5 rounded-full flex items-center justify-center border border-[#080403] animate-pulse">
-                                    {totalCartItems}
-                                </span>
-                            )}
-                        </button>
-
-                        {/* Auth Button */}
-                        {isAuthenticated ? (
-                            <button 
-                                onClick={() => {
-                                    dispatch(logout());
-                                    showNotification("Successfully logged out");
-                                    router.push("/auth/login");
-                                }}
-                                className="bg-[#2C120C] hover:bg-[#3E1A12] border border-[#E05A2B]/20 text-[#FAF6F0] text-sm font-semibold tracking-wide px-7 py-2.5 rounded-full transition-colors"
-                            >
-                                Sign Out
-                            </button>
-                        ) : (
-                            <Link 
-                                href="/auth/login"
-                                className="bg-[#2C120C] hover:bg-[#3E1A12] border border-[#E05A2B]/20 text-[#FAF6F0] text-sm font-semibold tracking-wide px-7 py-2.5 rounded-full transition-colors text-center"
-                            >
-                                Sign In
-                            </Link>
-                        )}
-                    </div>
-                </div>
-            </header>
+            <Navbar theme="dark" />
 
             {/* Hero Section */}
             <section id="home" className="relative z-30 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 md:py-20 flex flex-col lg:flex-row items-center gap-12 min-h-[calc(100vh-80px)] justify-center">
@@ -733,159 +561,10 @@ export default function WebsiteHome() {
             </section>
 
             {/* Footer Section */}
-            <footer className="relative z-30 bg-[#4E281F] text-[#FAF6F0] py-16 px-4 md:px-8 border-t border-white/5 overflow-hidden">
-                <div className="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-8 relative z-10">
-                    {/* Left side description */}
-                    <div className="text-center md:text-left">
-                        <p className="text-sm text-[#FAF6F0]/80 leading-relaxed font-sans font-light">
-                            Crafting aesthetic experiences, one bean at a time.<br />
-                            Designed for the modern aficionado.
-                        </p>
-                    </div>
-
-                    {/* Middle navigation links */}
-                    <div className="flex flex-wrap justify-center gap-6 md:gap-8 text-sm font-semibold tracking-wide text-[#FAF6F0]/90">
-                        <Link href="#" className="hover:text-[#C07C4A] transition-colors">Privacy Policy</Link>
-                        <Link href="#" className="hover:text-[#C07C4A] transition-colors">Terms of Service</Link>
-                        <Link href="#" className="hover:text-[#C07C4A] transition-colors">Contact Us</Link>
-                    </div>
-
-                    {/* Right side social links */}
-                    <div className="flex gap-4">
-                        <Link href="#" className="w-10 h-10 rounded-full border border-white/20 flex items-center justify-center text-[#FAF6F0]/80 hover:text-white hover:border-white transition-all hover:scale-105">
-                            <Globe className="w-4 h-4 stroke-[1.5]" />
-                        </Link>
-                        <Link href="#" className="w-10 h-10 rounded-full border border-white/20 flex items-center justify-center text-[#FAF6F0]/80 hover:text-white hover:border-white transition-all hover:scale-105">
-                            <AtSign className="w-4 h-4 stroke-[1.5]" />
-                        </Link>
-                    </div>
-                </div>
-
-                {/* Bottom branding and copyright */}
-                <div className="max-w-7xl mx-auto mt-16 pt-8 border-t border-white/5 flex flex-col items-center justify-center relative z-10 text-center">
-                    <h2 className="font-sans font-black text-[70px] sm:text-[100px] md:text-[130px] leading-none text-white/[0.015] tracking-wider select-none mb-3 uppercase">
-                        Bean Fien
-                    </h2>
-                    <p className="text-[11px] text-[#FAF6F0]/65 font-medium tracking-wide">
-                        © 2026 Bean Fien. All rights reserved.
-                    </p>
-                </div>
-            </footer>
+            <Footer theme="dark" />
 
             {/* Shopping Cart Drawer */}
-            {isCartOpen && (
-                <div className="fixed inset-0 z-50 flex justify-end">
-                    {/* Backdrop */}
-                    <div 
-                        onClick={() => setIsCartOpen(false)}
-                        className="fixed inset-0 bg-black/60 backdrop-blur-sm transition-opacity" 
-                    />
-
-                    {/* Drawer Panel */}
-                    <div className="relative w-full max-w-md bg-[#1E0F0B] h-full shadow-2xl p-6 flex flex-col justify-between border-l border-[#C07C4A]/20 animate-in slide-in-from-right duration-300">
-                        {/* Header */}
-                        <div className="flex justify-between items-center pb-5 border-b border-white/5">
-                            <div className="flex items-center gap-2">
-                                <ShoppingBag className="w-5 h-5 text-[#C07C4A]" />
-                                <h3 className="font-serif text-lg font-bold text-white">Your Cart ({totalCartItems})</h3>
-                            </div>
-                            <button 
-                                onClick={() => setIsCartOpen(false)}
-                                className="p-1.5 rounded-full hover:bg-white/5 text-white/70 hover:text-white transition-colors"
-                            >
-                                <X className="w-5 h-5" />
-                            </button>
-                        </div>
-
-                        {/* Cart Items List */}
-                        <div className="flex-1 overflow-y-auto py-5 space-y-4 pr-1">
-                            {cart.length > 0 ? (
-                                cart.map((cartItem) => (
-                                    <div 
-                                        key={cartItem.id}
-                                        className="flex gap-4 bg-[#140A07] p-3.5 rounded-2xl border border-white/5 text-left items-center justify-between"
-                                    >
-                                        <div className="w-16 h-16 rounded-xl overflow-hidden bg-[#24130F] flex-shrink-0">
-                                            <img src={cartItem.item.image} alt={cartItem.item.name} className="w-full h-full object-cover" />
-                                        </div>
-                                        <div className="flex-1 space-y-1">
-                                            <h4 className="text-xs font-bold text-white truncate max-w-[130px]">{cartItem.item.name}</h4>
-                                            <p className="text-[10px] text-white/50 leading-none">
-                                                Size: <span className="capitalize">{cartItem.size}</span> | Milk: <span className="capitalize">{cartItem.milk}</span>
-                                            </p>
-                                            {cartItem.addons && cartItem.addons.length > 0 && (
-                                                <p className="text-[9px] text-[#C07C4A] truncate max-w-[150px]">
-                                                    + {cartItem.addons.join(", ")}
-                                                </p>
-                                            )}
-                                            <p className="text-xs font-bold text-[#C07C4A]">${cartItem.finalPrice.toFixed(2)}</p>
-                                            
-                                            {/* Quantity Adjuster */}
-                                            <div className="flex items-center gap-2.5 pt-1">
-                                                <button 
-                                                    onClick={() => updateQuantity(cartItem.id, -1)}
-                                                    className="w-5 h-5 rounded bg-white/5 hover:bg-white/10 flex items-center justify-center transition-colors text-white"
-                                                >
-                                                    <Minus className="w-3 h-3" />
-                                                </button>
-                                                <span className="text-xs font-bold text-white">{cartItem.quantity}</span>
-                                                <button 
-                                                    onClick={() => updateQuantity(cartItem.id, 1)}
-                                                    className="w-5 h-5 rounded bg-white/5 hover:bg-white/10 flex items-center justify-center transition-colors text-white"
-                                                >
-                                                    <Plus className="w-3 h-3" />
-                                                </button>
-                                            </div>
-                                        </div>
-                                        <button 
-                                            onClick={() => removeFromCart(cartItem.id)}
-                                            className="p-2 text-white/40 hover:text-red-400 transition-colors"
-                                            title="Remove Item"
-                                        >
-                                            <Trash2 className="w-4 h-4" />
-                                        </button>
-                                    </div>
-                                ))
-                            ) : (
-                                <div className="flex flex-col items-center justify-center h-60 text-white/40 space-y-3">
-                                    <ShoppingBag className="w-10 h-10 stroke-1" />
-                                    <p className="text-sm font-semibold">Your cart is empty.</p>
-                                    <button 
-                                        onClick={() => setIsCartOpen(false)}
-                                        className="text-xs font-bold text-[#C07C4A] hover:underline"
-                                    >
-                                        Browse the Menu
-                                    </button>
-                                </div>
-                            )}
-                        </div>
-
-                        {/* Footer Summary */}
-                        <div className="pt-5 border-t border-white/5 space-y-4">
-                            <div className="flex justify-between items-center text-sm font-semibold">
-                                <span className="text-white/60">Subtotal</span>
-                                <span className="text-white text-base font-bold">${cartSubtotal.toFixed(2)}</span>
-                            </div>
-                            <div className="flex justify-between items-center text-xs text-white/40">
-                                <span>Taxes and service fees calculated at checkout</span>
-                            </div>
-                            <button
-                                onClick={handleCheckout}
-                                disabled={cart.length === 0}
-                                className={`
-                                    w-full py-4 rounded-xl text-xs font-bold uppercase tracking-widest transition-all duration-300
-                                    ${cart.length > 0 
-                                        ? "bg-[#C07C4A] text-[#140A07] hover:scale-[1.02] cursor-pointer shadow-lg shadow-[#C07C4A]/10" 
-                                        : "bg-white/5 text-white/30 cursor-not-allowed border border-white/5"
-                                    }
-                                `}
-                            >
-                                Checkout & Buy
-                            </button>
-                        </div>
-                    </div>
-                </div>
-            )}
+            <CartDrawer theme="dark" />
         </div>
     );
 }

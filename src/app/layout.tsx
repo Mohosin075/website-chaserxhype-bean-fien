@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Lora, Outfit } from "next/font/google";
 import "./globals.css";
 import { ReduxProvider } from "@/providers/ReduxProvider";
+import { CartProvider } from "@/providers/CartProvider";
 
 const lora = Lora({
     subsets: ["latin"],
@@ -32,7 +33,9 @@ export default function RootLayout({
         <html lang="en" className="scroll-smooth">
             <body className={`${outfit.variable} ${lora.variable} font-sans antialiased bg-background text-foreground`}>
                 <ReduxProvider>
-                    {children}
+                    <CartProvider>
+                        {children}
+                    </CartProvider>
                 </ReduxProvider>
             </body>
         </html>
