@@ -163,7 +163,7 @@ export default function CustomerMenu() {
                     {/* Logo */}
                     <Link href="/" className="flex items-center gap-3 group">
                         <div className="w-12 h-12 rounded-full overflow-hidden bg-[#2C1711] border border-[#C07C4A]/40 flex items-center justify-center relative transition-transform duration-300 group-hover:scale-105">
-                            <img src="/logo.svg" alt="Bean Fien Logo" className="w-full h-full object-cover p-1" />
+                            <img src="/coffee_bean_mascot.png" alt="Bean Fien Logo" className="w-full h-full object-cover p-1" />
                         </div>
                         <div className="hidden sm:block text-left">
                             <span className="font-serif text-lg font-bold tracking-wider block leading-none text-[#2C1A14]">Bean Fien</span>
@@ -172,7 +172,7 @@ export default function CustomerMenu() {
                     </Link>
 
                     {/* Desktop Menu */}
-                    <nav className="hidden md:flex items-center gap-8 text-sm font-semibold tracking-wider uppercase">
+                    <nav className="hidden md:flex items-center gap-8 text-sm font-semibold tracking-wider">
                         <Link href="/" className="text-[#2C1A14] hover:text-[#C07C4A] transition-colors pb-1 border-b-2 border-transparent hover:border-[#C07C4A]/40">Home</Link>
                         <Link href="/menu" className="text-[#C07C4A] transition-colors border-b-2 border-[#C07C4A] pb-1">Menu</Link>
                         <Link href="/rewards" className="text-[#2C1A14] hover:text-[#C07C4A] transition-colors pb-1 border-b-2 border-transparent hover:border-[#C07C4A]/40">Rewards</Link>
@@ -254,7 +254,7 @@ export default function CustomerMenu() {
                         ) : (
                             <Link 
                                 href="/auth/login"
-                                className="bg-[#2C120C] hover:bg-[#4A241A] text-[#FAF6F0] text-sm font-semibold tracking-wide px-6 py-2.5 rounded-full transition-colors text-center"
+                                className="bg-[#2C120C] hover:bg-[#4A241A] text-[#FAF6F0] text-sm font-semibold tracking-wide px-6 py-2.5 rounded-lg transition-colors text-center"
                             >
                                 Sign In
                             </Link>
@@ -329,7 +329,7 @@ export default function CustomerMenu() {
                                 </div>
                                 <Link 
                                     href={`/menu/${item.id}`}
-                                    className="w-full py-3 rounded-xl bg-[#2A120C] hover:bg-[#4A241A] text-white text-xs font-bold uppercase tracking-wider transition-colors text-center block"
+                                    className="w-full py-3 rounded-lg bg-[#2A120C] hover:bg-[#4A241A] text-white text-xs font-bold tracking-wider transition-colors text-center block"
                                 >
                                     Add to Cart
                                 </Link>

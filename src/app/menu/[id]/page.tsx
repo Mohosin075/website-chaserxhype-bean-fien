@@ -218,7 +218,7 @@ export default function MenuDetailPage({ params }: { params: Promise<{ id: strin
                     {/* Logo */}
                     <Link href="/" className="flex items-center gap-3 group">
                         <div className="w-12 h-12 rounded-full overflow-hidden bg-[#2C1711] border border-[#C07C4A]/40 flex items-center justify-center relative transition-transform duration-300 group-hover:scale-105">
-                            <img src="/logo.svg" alt="Bean Fien Logo" className="w-full h-full object-cover p-1" />
+                            <img src="/coffee_bean_mascot.png" alt="Bean Fien Logo" className="w-full h-full object-cover p-1" />
                         </div>
                         <div className="hidden sm:block text-left">
                             <span className="font-serif text-lg font-bold tracking-wider block leading-none text-[#2C1A14]">Bean Fien</span>
@@ -227,7 +227,7 @@ export default function MenuDetailPage({ params }: { params: Promise<{ id: strin
                     </Link>
 
                     {/* Desktop Menu */}
-                    <nav className="hidden md:flex items-center gap-8 text-sm font-semibold tracking-wider uppercase">
+                    <nav className="hidden md:flex items-center gap-8 text-sm font-semibold tracking-wider">
                         <Link href="/" className="text-[#2C1A14] hover:text-[#C07C4A] transition-colors pb-1 border-b-2 border-transparent hover:border-[#C07C4A]/40">Home</Link>
                         <Link href="/menu" className="text-[#C07C4A] transition-colors border-b-2 border-[#C07C4A] pb-1">Menu</Link>
                         <Link href="/rewards" className="text-[#2C1A14] hover:text-[#C07C4A] transition-colors pb-1 border-b-2 border-transparent hover:border-[#C07C4A]/40">Rewards</Link>
@@ -340,15 +340,15 @@ export default function MenuDetailPage({ params }: { params: Promise<{ id: strin
                         {/* Order Now button below circle visualizer */}
                         <button
                             onClick={handleAddCustomizedToCart}
-                            className="mt-8 px-10 py-4 rounded-full bg-[#2A120C] hover:bg-[#4A241A] text-white border border-[#C07C4A]/40 text-xs font-black uppercase tracking-widest shadow-xl flex items-center justify-center gap-4 group transition-all duration-300 hover:scale-105"
+                            className="mt-8 px-10 py-4 rounded-lg bg-[#2A120C] hover:bg-[#4A241A] text-white border border-[#C07C4A]/40 text-xs font-black uppercase tracking-widest shadow-xl flex items-center justify-center gap-4 group transition-all duration-300 hover:scale-105"
                         >
                             <span>${currentPrice.toFixed(2)}</span>
-                            <span className="opacity-40">|</span>
+                            <span className="opacity-30">— — —</span>
                             <span className="group-hover:text-[#C07C4A] transition-colors">Order Now</span>
                         </button>
                     </div>
 
-                    {/* Right Column: List of items in the same category (rendered as rounded white pills) */}
+                    {/* Right Column: List of items in the same category (rendered as rounded tiles) */}
                     <div className="w-full md:w-[30%] flex flex-col gap-3.5 pr-1">
                         {categoryItems.map((item) => {
                             const isActive = item.id === selectedItem.id;
@@ -357,20 +357,20 @@ export default function MenuDetailPage({ params }: { params: Promise<{ id: strin
                                     key={item.id}
                                     onClick={() => router.push(`/menu/${item.id}`)}
                                     className={`
-                                        w-full rounded-full p-2.5 pr-6 flex items-center gap-4 transition-all duration-300 border text-left shadow-sm
+                                        w-full rounded-xl p-3 flex items-center gap-4 transition-all duration-300 border text-left shadow-sm
                                         ${isActive
-                                            ? "bg-[#2A120C] text-[#FAF6F0] border-[#C07C4A]/40"
+                                            ? "bg-[#2A120C] text-[#FAF6F0] border-[#C07C4A] border-2 scale-102 ring-2 ring-[#C07C4A]/20"
                                             : "bg-white text-[#2C1A14] border-[#2C1A14]/10 hover:bg-[#2C1A14]/5"
                                         }
                                     `}
                                 >
-                                    {/* Thumbnail inside small circle */}
-                                    <div className="w-14 h-14 rounded-full overflow-hidden bg-[#2C1A14] flex-shrink-0 flex items-center justify-center p-0.5 relative border border-[#C07C4A]/20">
+                                    {/* Thumbnail inside small rounded box */}
+                                    <div className="w-14 h-14 rounded-lg overflow-hidden bg-[#2C1A14] flex-shrink-0 flex items-center justify-center p-0.5 relative border border-[#C07C4A]/20">
                                         <div
                                             className="absolute inset-0 bg-cover bg-center opacity-40 mix-blend-overlay"
                                             style={{ backgroundImage: "url('https://images.unsplash.com/photo-1514432324607-a09d9b4aefdd?auto=format&fit=crop&w=100&q=80')" }}
                                         />
-                                        <img src={item.image} alt={item.name} className="w-full h-full rounded-full object-cover relative z-10" />
+                                        <img src={item.image} alt={item.name} className="w-full h-full rounded-lg object-cover relative z-10" />
                                     </div>
 
                                     {/* Item text */}
@@ -415,7 +415,7 @@ export default function MenuDetailPage({ params }: { params: Promise<{ id: strin
                                     key={size}
                                     onClick={() => setCustomSize(size)}
                                     className={`
-                                        py-4.5 rounded-2xl text-xs font-bold transition-all border text-center flex flex-col justify-center gap-1 shadow-sm
+                                        py-4.5 rounded-lg text-xs font-bold transition-all border text-center flex flex-col justify-center gap-1 shadow-sm
                                         ${customSize === size
                                             ? "bg-[#2A120C] text-white border-[#2A120C]"
                                             : "bg-white border-[#2C1A14]/15 hover:bg-[#2C1A14]/5 text-[#2C1A14]"
@@ -442,7 +442,7 @@ export default function MenuDetailPage({ params }: { params: Promise<{ id: strin
                                     key={milk}
                                     onClick={() => setCustomMilk(milk)}
                                     className={`
-                                        py-4 px-4 rounded-2xl text-xs font-bold transition-all border flex items-center justify-center gap-2 shadow-sm
+                                        py-4 px-4 rounded-lg text-xs font-bold transition-all border flex items-center justify-center gap-2 shadow-sm
                                         ${customMilk === milk
                                             ? "bg-[#2A120C] text-white border-[#2A120C]"
                                             : "bg-white border-[#2C1A14]/15 hover:bg-[#2C1A14]/5 text-[#2C1A14]"
@@ -469,7 +469,7 @@ export default function MenuDetailPage({ params }: { params: Promise<{ id: strin
                                         type="button"
                                         onClick={() => handleAddAddon(addon)}
                                         className={`
-                                            py-3 px-5 rounded-2xl text-xs font-bold transition-all border flex items-center gap-1.5 shadow-sm
+                                            py-3 px-5 rounded-lg text-xs font-bold transition-all border flex items-center gap-1.5 shadow-sm
                                             ${isActive
                                                 ? "bg-[#2A120C] text-white border-[#2A120C]"
                                                 : "bg-white border-[#2C1A14]/15 hover:bg-[#2C1A14]/5 text-[#2C1A14]"
@@ -491,7 +491,7 @@ export default function MenuDetailPage({ params }: { params: Promise<{ id: strin
                             placeholder="Any specific preferences?"
                             value={customInstructions}
                             onChange={(e) => setCustomInstructions(e.target.value)}
-                            className="w-full px-5 py-4 rounded-2xl border border-[#2C1A14]/15 bg-white text-[#2C1A14] focus:outline-none focus:ring-2 focus:ring-[#C07C4A]/30 text-xs resize-none h-24 leading-relaxed"
+                            className="w-full px-5 py-4 rounded-lg border border-[#2C1A14]/15 bg-white text-[#2C1A14] focus:outline-none focus:ring-2 focus:ring-[#C07C4A]/30 text-xs resize-none h-24 leading-relaxed"
                         />
                     </div>
 
@@ -499,7 +499,7 @@ export default function MenuDetailPage({ params }: { params: Promise<{ id: strin
                     <div className="space-y-3 pt-8 border-t border-[#2C1A14]/10">
                         <button
                             onClick={handleAddCustomizedToCart}
-                            className="w-full py-4.5 rounded-2xl bg-[#2A120C] hover:bg-[#4A241A] text-white text-xs font-black uppercase tracking-widest transition-all shadow-md shadow-[#2A120C]/25 flex items-center justify-center gap-2 hover:scale-[1.01]"
+                            className="w-full py-4.5 rounded-lg bg-[#2A120C] hover:bg-[#4A241A] text-white text-xs font-bold tracking-wide transition-all shadow-md shadow-[#2A120C]/25 flex items-center justify-center gap-2 hover:scale-[1.01]"
                         >
                             <ShoppingBag className="w-4 h-4 text-[#C07C4A]" />
                             <span>Add to Cart — ${currentPrice.toFixed(2)}</span>

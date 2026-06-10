@@ -189,7 +189,7 @@ export default function RewardsPage() {
                     {/* Logo */}
                     <Link href="/" className="flex items-center gap-3 group">
                         <div className="w-12 h-12 rounded-full overflow-hidden bg-[#2C1711] border border-[#C07C4A]/40 flex items-center justify-center relative transition-transform duration-300 group-hover:scale-105">
-                            <img src="/logo.svg" alt="Bean Fien Logo" className="w-full h-full object-cover p-1" />
+                            <img src="/coffee_bean_mascot.png" alt="Bean Fien Logo" className="w-full h-full object-cover p-1" />
                         </div>
                         <div className="hidden sm:block text-left">
                             <span className="font-serif text-lg font-bold tracking-wider block leading-none text-[#2C1A14]">Bean Fien</span>
@@ -198,7 +198,7 @@ export default function RewardsPage() {
                     </Link>
 
                     {/* Center Desktop Navigation Menu */}
-                    <nav className="hidden md:flex items-center gap-8 text-sm font-semibold tracking-wider uppercase">
+                    <nav className="hidden md:flex items-center gap-8 text-sm font-semibold tracking-wider">
                         <Link href="/" className="text-[#2C1A14] hover:text-[#C07C4A] transition-colors pb-1 border-b-2 border-transparent hover:border-[#C07C4A]/40">Home</Link>
                         <Link href="/menu" className="text-[#2C1A14] hover:text-[#C07C4A] transition-colors pb-1 border-b-2 border-transparent hover:border-[#C07C4A]/40">Menu</Link>
                         <Link href="/rewards" className="text-[#C07C4A] transition-colors border-b-2 border-[#C07C4A] pb-1">Rewards</Link>
@@ -289,7 +289,7 @@ export default function RewardsPage() {
                             <div className="mt-4 w-full flex justify-center">
                                 <button
                                     onClick={handleRedeemMascotReward}
-                                    className="px-8 py-3 rounded-full bg-[#2C120C] hover:bg-[#4A241A] text-white text-xs font-bold uppercase tracking-wider transition-colors shadow-md shadow-[#2C120C]/10"
+                                    className="px-8 py-3 rounded-lg bg-[#2C120C] hover:bg-[#4A241A] text-white text-xs font-bold uppercase tracking-wider transition-colors shadow-md shadow-[#2C120C]/10"
                                 >
                                     Redeem Reward
                                 </button>
@@ -318,13 +318,13 @@ export default function RewardsPage() {
                     <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
                         
                         {/* 50 PTS Card */}
-                        <div className="bg-[#FAF6F0] rounded-3xl border border-[#2C1A14]/10 p-5 flex flex-col justify-between hover:shadow-lg transition-all duration-300 group hover:-translate-y-1">
-                            <div className="relative h-64 rounded-2xl overflow-hidden mb-5">
+                        <div className="bg-[#FAF6F0] rounded-2xl border border-[#2C1A14]/10 p-5 flex flex-col justify-between hover:shadow-lg transition-all duration-300 group hover:-translate-y-1">
+                            <div className="relative h-64 rounded-xl overflow-hidden mb-5">
                                 <span className="absolute top-4.5 left-4.5 z-10 bg-[#2C120C] text-white text-[10px] font-black uppercase tracking-wider py-1.5 px-3 rounded-lg">
                                     50 PTS
                                 </span>
                                 <img 
-                                    src="https://images.unsplash.com/photo-1513530534585-c7b1394c6d51?auto=format&fit=crop&w=500&q=80" 
+                                    src="https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?auto=format&fit=crop&w=500&q=80" 
                                     alt="Vanilla Sweet Cream" 
                                     className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" 
                                 />
@@ -339,11 +339,11 @@ export default function RewardsPage() {
                                     </p>
                                 </div>
                                 
-                                {/* Capsule shape, centered Add to Cart button */}
+                                {/* Centered Add to Cart button */}
                                 <div className="w-full flex justify-center pt-2">
                                     <button 
                                         onClick={() => handleAddRewardToCart(50, "Vanilla Sweet Cream (50 PTS)", "c2")}
-                                        className="px-8 py-2.5 rounded-full bg-[#2C120C] hover:bg-[#4A241A] text-white text-xs font-bold uppercase tracking-wider transition-colors"
+                                        className="px-8 py-2.5 rounded-lg bg-[#2C120C] hover:bg-[#4A241A] text-white text-xs font-bold tracking-wider transition-colors"
                                     >
                                         Add to Cart
                                     </button>
@@ -352,32 +352,32 @@ export default function RewardsPage() {
                         </div>
 
                         {/* 150 PTS Card */}
-                        <div className="bg-[#FAF6F0] rounded-3xl border border-[#2C1A14]/10 p-5 flex flex-col justify-between hover:shadow-lg transition-all duration-300 group hover:-translate-y-1">
-                            <div className="relative h-64 rounded-2xl overflow-hidden mb-5">
+                        <div className="bg-[#FAF6F0] rounded-2xl border border-[#2C1A14]/10 p-5 flex flex-col justify-between hover:shadow-lg transition-all duration-300 group hover:-translate-y-1">
+                            <div className="relative h-64 rounded-xl overflow-hidden mb-5">
                                 <span className="absolute top-4.5 left-4.5 z-10 bg-[#2C120C] text-white text-[10px] font-black uppercase tracking-wider py-1.5 px-3 rounded-lg">
                                     150 PTS
                                 </span>
                                 <img 
-                                    src="https://images.unsplash.com/photo-1513530534585-c7b1394c6d51?auto=format&fit=crop&w=500&q=80" 
-                                    alt="Vanilla Sweet Cream" 
+                                    src="https://images.unsplash.com/photo-1517701604599-bb29b565090c?auto=format&fit=crop&w=500&q=80" 
+                                    alt="Oat Silk Latte" 
                                     className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" 
                                 />
                             </div>
                             <div className="space-y-5 flex flex-col flex-1 justify-between text-center">
                                 <div className="space-y-2 text-left">
                                     <h3 className="font-serif text-lg font-bold text-[#2C1A14] group-hover:text-[#8B4513] transition-colors">
-                                        Vanilla Sweet Cream
+                                        Oat Silk Latte
                                     </h3>
                                     <p className="text-xs text-[#6B5E59] leading-relaxed">
-                                        House-made cold brew topped with a float of vanilla-infused sweet cream.
+                                        Double ristretto shot paired with micro-foamed premium oat milk.
                                     </p>
                                 </div>
                                 
-                                {/* Capsule shape, centered Add to Cart button */}
+                                {/* Centered Add to Cart button */}
                                 <div className="w-full flex justify-center pt-2">
                                     <button 
-                                        onClick={() => handleAddRewardToCart(150, "Vanilla Sweet Cream (150 PTS)", "c2")}
-                                        className="px-8 py-2.5 rounded-full bg-[#2C120C] hover:bg-[#4A241A] text-white text-xs font-bold uppercase tracking-wider transition-colors"
+                                        onClick={() => handleAddRewardToCart(150, "Oat Silk Latte (150 PTS)", "dg2")}
+                                        className="px-8 py-2.5 rounded-lg bg-[#2C120C] hover:bg-[#4A241A] text-white text-xs font-bold tracking-wider transition-colors"
                                     >
                                         Add to Cart
                                     </button>
@@ -386,32 +386,32 @@ export default function RewardsPage() {
                         </div>
 
                         {/* 500 PTS Card */}
-                        <div className="bg-[#FAF6F0] rounded-3xl border border-[#2C1A14]/10 p-5 flex flex-col justify-between hover:shadow-lg transition-all duration-300 group hover:-translate-y-1">
-                            <div className="relative h-64 rounded-2xl overflow-hidden mb-5">
+                        <div className="bg-[#FAF6F0] rounded-2xl border border-[#2C1A14]/10 p-5 flex flex-col justify-between hover:shadow-lg transition-all duration-300 group hover:-translate-y-1">
+                            <div className="relative h-64 rounded-xl overflow-hidden mb-5">
                                 <span className="absolute top-4.5 left-4.5 z-10 bg-[#2C120C] text-white text-[10px] font-black uppercase tracking-wider py-1.5 px-3 rounded-lg">
                                     500 PTS
                                 </span>
                                 <img 
-                                    src="https://images.unsplash.com/photo-1513530534585-c7b1394c6d51?auto=format&fit=crop&w=500&q=80" 
-                                    alt="Vanilla Sweet Cream" 
+                                    src="https://images.unsplash.com/photo-1572490122747-3968b75cc699?auto=format&fit=crop&w=500&q=80" 
+                                    alt="Hazelnut Frappe" 
                                     className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" 
                                 />
                             </div>
                             <div className="space-y-5 flex flex-col flex-1 justify-between text-center">
                                 <div className="space-y-2 text-left">
                                     <h3 className="font-serif text-lg font-bold text-[#2C1A14] group-hover:text-[#8B4513] transition-colors">
-                                        Vanilla Sweet Cream
+                                        Hazelnut Frappe
                                     </h3>
                                     <p className="text-xs text-[#6B5E59] leading-relaxed">
-                                        House-made cold brew topped with a float of vanilla-infused sweet cream.
+                                        Blended coffee, milk, and hazelnut syrup, finished with whipped cream.
                                     </p>
                                 </div>
                                 
-                                {/* Capsule shape, centered Add to Cart button */}
+                                {/* Centered Add to Cart button */}
                                 <div className="w-full flex justify-center pt-2">
                                     <button 
-                                        onClick={() => handleAddRewardToCart(500, "Vanilla Sweet Cream (500 PTS)", "c2")}
-                                        className="px-8 py-2.5 rounded-full bg-[#2C120C] hover:bg-[#4A241A] text-white text-xs font-bold uppercase tracking-wider transition-colors"
+                                        onClick={() => handleAddRewardToCart(500, "Hazelnut Frappe (500 PTS)", "b1")}
+                                        className="px-8 py-2.5 rounded-lg bg-[#2C120C] hover:bg-[#4A241A] text-white text-xs font-bold tracking-wider transition-colors"
                                     >
                                         Add to Cart
                                     </button>

@@ -248,7 +248,7 @@ export default function GiftCardsPage() {
                     {/* Logo */}
                     <Link href="/" className="flex items-center gap-3 group">
                         <div className="w-12 h-12 rounded-full overflow-hidden bg-[#2C1711] border border-[#C07C4A]/40 flex items-center justify-center relative transition-transform duration-300 group-hover:scale-105">
-                            <img src="/logo.svg" alt="Bean Fien Logo" className="w-full h-full object-cover p-1" />
+                            <img src="/coffee_bean_mascot.png" alt="Bean Fien Logo" className="w-full h-full object-cover p-1" />
                         </div>
                         <div className="hidden sm:block text-left">
                             <span className="font-serif text-lg font-bold tracking-wider block leading-none text-[#2C1A14]">Bean Fien</span>
@@ -257,7 +257,7 @@ export default function GiftCardsPage() {
                     </Link>
 
                     {/* Desktop Menu */}
-                    <nav className="hidden md:flex items-center gap-8 text-sm font-semibold tracking-wider uppercase">
+                    <nav className="hidden md:flex items-center gap-8 text-sm font-semibold tracking-wider">
                         <Link href="/" className="text-[#2C1A14] hover:text-[#C07C4A] transition-colors pb-1 border-b-2 border-transparent hover:border-[#C07C4A]/40">Home</Link>
                         <Link href="/menu" className="text-[#2C1A14] hover:text-[#C07C4A] transition-colors pb-1 border-b-2 border-transparent hover:border-[#C07C4A]/40">Menu</Link>
                         <Link href="/rewards" className="text-[#2C1A14] hover:text-[#C07C4A] transition-colors pb-1 border-b-2 border-transparent hover:border-[#C07C4A]/40">Rewards</Link>
@@ -366,7 +366,7 @@ export default function GiftCardsPage() {
                         <div className="flex gap-4 pt-2">
                             <button 
                                 onClick={() => setViewMode("purchase")}
-                                className={`px-6 py-3 rounded-full text-xs font-bold uppercase tracking-wider transition-all duration-300 ${
+                                className={`px-6 py-3 rounded-lg text-xs font-bold tracking-wider transition-all duration-300 ${
                                     viewMode === "purchase"
                                         ? "bg-[#2C120C] text-white shadow-md shadow-[#2C120C]/10"
                                         : "bg-white border border-[#2C1A14]/15 text-[#2C1A14] hover:bg-[#2C1A14]/5"
@@ -379,7 +379,7 @@ export default function GiftCardsPage() {
                                     setViewMode("balance");
                                     setTempNickname(cardNickname);
                                 }}
-                                className={`px-6 py-3 rounded-full text-xs font-bold uppercase tracking-wider transition-all duration-300 ${
+                                className={`px-6 py-3 rounded-lg text-xs font-bold tracking-wider transition-all duration-300 ${
                                     viewMode === "balance"
                                         ? "bg-[#2C120C] text-white shadow-md shadow-[#2C120C]/10"
                                         : "bg-white border border-[#2C1A14]/15 text-[#2C1A14] hover:bg-[#2C1A14]/5"
@@ -467,13 +467,13 @@ export default function GiftCardsPage() {
                                     <p className="text-xs text-[#6B5E59] -mt-2">
                                         Select the aesthetic that fits the occasion.
                                     </p>
-                                    <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
+                                    <div className="grid grid-cols-2 gap-4">
                                         {cardDesigns.map((design) => (
                                             <button
                                                 key={design.id}
                                                 type="button"
                                                 onClick={() => setSelectedDesign(design.id)}
-                                                className={`relative h-24 rounded-xl overflow-hidden border-2 transition-all shadow-sm ${
+                                                className={`relative h-28 rounded-lg overflow-hidden border-2 transition-all shadow-sm ${
                                                     selectedDesign === design.id
                                                         ? "border-[#C07C4A] ring-2 ring-[#C07C4A]/25 scale-102"
                                                         : "border-[#2C1A14]/15 hover:border-[#2C1A14]/40"
@@ -508,7 +508,7 @@ export default function GiftCardsPage() {
                                                     setAmountPreset(val);
                                                     setCustomAmountVal("");
                                                 }}
-                                                className={`px-6 py-3.5 rounded-xl text-xs font-bold border transition-all shadow-sm ${
+                                                className={`px-6 py-3.5 rounded-lg text-xs font-bold border transition-all shadow-sm ${
                                                     amountPreset === val
                                                         ? "bg-[#FAF0ED] text-[#C07C4A] border-[#C07C4A] font-black"
                                                         : "bg-white border-[#2C1A14]/15 text-[#2C1A14] hover:bg-[#2C1A14]/5"
@@ -520,7 +520,7 @@ export default function GiftCardsPage() {
 
                                         {/* Custom Value input structured as same size pill */}
                                         {amountPreset === "custom" ? (
-                                            <div className="flex items-center gap-1.5 px-4 py-2 border border-[#C07C4A] rounded-xl bg-[#FAF0ED] shadow-sm">
+                                            <div className="flex items-center gap-1.5 px-4 py-2 border border-[#C07C4A] rounded-lg bg-[#FAF0ED] shadow-sm">
                                                 <span className="text-xs font-bold text-[#C07C4A]">$</span>
                                                 <input 
                                                     type="number"
@@ -537,7 +537,7 @@ export default function GiftCardsPage() {
                                                     setAmountPreset("custom");
                                                     setCustomAmountVal("");
                                                 }}
-                                                className="px-6 py-3.5 rounded-xl text-xs font-bold border border-[#2C1A14]/15 text-[#2C1A14] bg-white hover:bg-[#2C1A14]/5 shadow-sm"
+                                                className="px-6 py-3.5 rounded-lg text-xs font-bold border border-[#2C1A14]/15 text-[#2C1A14] bg-white hover:bg-[#2C1A14]/5 shadow-sm"
                                             >
                                                 $Custom
                                             </button>
@@ -547,9 +547,9 @@ export default function GiftCardsPage() {
 
                             </div>
 
-                            {/* Right Recipient Details details card */}
+                             {/* Right Recipient Details details card */}
                             <div className="lg:col-span-5">
-                                <div className="bg-white rounded-3xl border border-[#2C1A14]/10 p-6 space-y-6 shadow-md">
+                                <div className="bg-[#FAF0ED] rounded-2xl border border-[#C07C4A]/20 p-6 space-y-6 shadow-md">
                                     <h3 className="font-serif text-xl font-bold text-[#2C1A14]">
                                         Recipient Details
                                     </h3>
@@ -565,7 +565,7 @@ export default function GiftCardsPage() {
                                                 placeholder="Who is it for?"
                                                 value={recipientName}
                                                 onChange={(e) => setRecipientName(e.target.value)}
-                                                className="w-full bg-[#FAF6F0] border border-[#2C1A14]/10 rounded-xl px-4 py-3.5 text-xs font-medium focus:outline-none focus:ring-1 focus:ring-[#C07C4A] text-[#2C1A14]"
+                                                className="w-full bg-[#FAF6F0] border border-[#2C1A14]/10 rounded-lg px-4 py-3.5 text-xs font-medium focus:outline-none focus:ring-1 focus:ring-[#C07C4A] text-[#2C1A14]"
                                                 required
                                             />
                                         </div>
@@ -580,7 +580,7 @@ export default function GiftCardsPage() {
                                                 placeholder="coffee@example.com"
                                                 value={recipientEmail}
                                                 onChange={(e) => setRecipientEmail(e.target.value)}
-                                                className="w-full bg-[#FAF6F0] border border-[#2C1A14]/10 rounded-xl px-4 py-3.5 text-xs font-medium focus:outline-none focus:ring-1 focus:ring-[#C07C4A] text-[#2C1A14]"
+                                                className="w-full bg-[#FAF6F0] border border-[#2C1A14]/10 rounded-lg px-4 py-3.5 text-xs font-medium focus:outline-none focus:ring-1 focus:ring-[#C07C4A] text-[#2C1A14]"
                                                 required
                                             />
                                         </div>
@@ -594,7 +594,7 @@ export default function GiftCardsPage() {
                                                 placeholder="A little something for your next brew..."
                                                 value={personalMessage}
                                                 onChange={(e) => setPersonalMessage(e.target.value)}
-                                                className="w-full bg-[#FAF6F0] border border-[#2C1A14]/10 rounded-xl px-4 py-3 text-xs font-medium focus:outline-none focus:ring-1 focus:ring-[#C07C4A] text-[#2C1A14] h-20 resize-none"
+                                                className="w-full bg-[#FAF6F0] border border-[#2C1A14]/10 rounded-lg px-4 py-3 text-xs font-medium focus:outline-none focus:ring-1 focus:ring-[#C07C4A] text-[#2C1A14] h-20 resize-none"
                                             />
                                         </div>
                                     </div>
@@ -612,7 +612,7 @@ export default function GiftCardsPage() {
 
                                         <button 
                                             type="submit"
-                                            className="px-8 py-3 rounded-full bg-[#2C120C] hover:bg-[#4A241A] text-white text-xs font-bold uppercase tracking-wider transition-colors shadow-md flex items-center gap-1.5 group"
+                                            className="px-8 py-3 rounded-lg bg-[#2C120C] hover:bg-[#4A241A] text-white text-xs font-bold tracking-wider transition-colors shadow-md flex items-center gap-1.5 group"
                                         >
                                             <span>Add to Cart</span>
                                             <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-0.5" />
@@ -644,7 +644,7 @@ export default function GiftCardsPage() {
 
                                 <div className="space-y-4">
                                     {/* Tx 1 */}
-                                    <div className="bg-[#FAF6F0] rounded-2xl border border-[#2C1A14]/10 p-5 flex items-center justify-between shadow-sm hover:shadow-md transition-shadow">
+                                    <div className="bg-[#FAF6F0] rounded-lg border border-[#2C1A14]/10 p-5 flex items-center justify-between shadow-sm hover:shadow-md transition-shadow">
                                         <div className="flex items-center gap-4">
                                             <div className="w-12 h-12 rounded-full bg-[#FAF0ED] border border-[#F6DED6] flex items-center justify-center text-[#C07C4A]">
                                                 <Coffee className="w-5 h-5 stroke-[1.5]" />
@@ -660,7 +660,7 @@ export default function GiftCardsPage() {
                                     </div>
 
                                     {/* Tx 2 */}
-                                    <div className="bg-[#FAF6F0] rounded-2xl border border-[#2C1A14]/10 p-5 flex items-center justify-between shadow-sm hover:shadow-md transition-shadow">
+                                    <div className="bg-[#FAF6F0] rounded-lg border border-[#2C1A14]/10 p-5 flex items-center justify-between shadow-sm hover:shadow-md transition-shadow">
                                         <div className="flex items-center gap-4">
                                             <div className="w-12 h-12 rounded-full bg-[#FAF0ED] border border-[#F6DED6] flex items-center justify-center text-[#C07C4A]">
                                                 <CreditCard className="w-5 h-5 stroke-[1.5]" />
@@ -676,7 +676,7 @@ export default function GiftCardsPage() {
                                     </div>
 
                                     {/* Tx 3 */}
-                                    <div className="bg-[#FAF6F0] rounded-2xl border border-[#2C1A14]/10 p-5 flex items-center justify-between shadow-sm hover:shadow-md transition-shadow">
+                                    <div className="bg-[#FAF6F0] rounded-lg border border-[#2C1A14]/10 p-5 flex items-center justify-between shadow-sm hover:shadow-md transition-shadow">
                                         <div className="flex items-center gap-4">
                                             <div className="w-12 h-12 rounded-full bg-[#FAF0ED] border border-[#F6DED6] flex items-center justify-center text-[#C07C4A]">
                                                 <ShoppingBag className="w-5 h-5 stroke-[1.5]" />
@@ -695,7 +695,7 @@ export default function GiftCardsPage() {
 
                             {/* Card Management Action Card */}
                             <div className="lg:col-span-5">
-                                <div className="bg-white rounded-3xl border border-[#2C1A14]/10 p-6 space-y-4 shadow-md">
+                                <div className="bg-white rounded-2xl border border-[#2C1A14]/10 p-6 space-y-4 shadow-md">
                                     <h3 className="font-serif text-xl font-bold text-[#2C1A14] border-b border-[#2C1A14]/5 pb-3">
                                         Card Management
                                     </h3>
@@ -712,7 +712,7 @@ export default function GiftCardsPage() {
                                                     setTempNickname(cardNickname);
                                                 }
                                             }}
-                                            className="w-full flex items-center justify-between p-4 rounded-xl border border-[#2C1A14]/10 hover:bg-[#FAF6F0] transition-colors text-left"
+                                            className="w-full flex items-center justify-between p-4 rounded-lg border border-[#2C1A14]/10 hover:bg-[#FAF6F0] transition-colors text-left"
                                         >
                                             <div className="flex items-center gap-3">
                                                 <div className="w-9 h-9 rounded-full bg-[#FAF0ED] text-[#C07C4A] flex items-center justify-center border border-[#F6DED6]">
@@ -733,7 +733,7 @@ export default function GiftCardsPage() {
                                                 setIsCardActive(!isCardActive);
                                                 showNotification(isCardActive ? "Card deactivated temporarily." : "Card reactivated.");
                                             }}
-                                            className="w-full flex items-center justify-between p-4 rounded-xl border border-[#2C1A14]/10 hover:bg-red-50/5 transition-colors text-left"
+                                            className="w-full flex items-center justify-between p-4 rounded-lg border border-[#2C1A14]/10 hover:bg-red-50/5 transition-colors text-left"
                                         >
                                             <div className="flex items-center gap-3">
                                                 <div className={`w-9 h-9 rounded-full flex items-center justify-center border ${
@@ -759,7 +759,6 @@ export default function GiftCardsPage() {
                                     </div>
                                 </div>
                             </div>
-
                         </div>
                     </div>
                 </section>
@@ -768,7 +767,7 @@ export default function GiftCardsPage() {
             {/* REDEEM A CODE SECTION (Reference Image 4 bottom black card) */}
             <section className="bg-[#1E1B1A] text-white py-16 text-left border-t border-white/5 relative z-30 font-sans">
                 <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                    <div className="bg-[#141212] p-8 md:p-12 rounded-3xl border border-white/10 flex flex-col md:flex-row items-center justify-between gap-8 shadow-2xl relative">
+                    <div className="bg-[#141212] p-8 md:p-12 rounded-2xl border border-white/10 flex flex-col md:flex-row items-center justify-between gap-8 shadow-2xl relative">
                         
                         {/* Ticket icon in header of section on far right */}
                         <div className="absolute top-8 right-8 text-[#C07C4A] hidden md:block">
@@ -790,13 +789,13 @@ export default function GiftCardsPage() {
                                 placeholder="Enter 16-digit Code"
                                 value={redeemCode}
                                 onChange={(e) => setRedeemCode(e.target.value)}
-                                className="w-full bg-white/5 border border-white/10 focus:border-[#C07C4A] rounded-2xl px-5 py-4 text-xs font-semibold focus:outline-none text-white tracking-widest text-center"
+                                className="w-full bg-white/5 border border-white/10 focus:border-[#C07C4A] rounded-lg px-5 py-4 text-xs font-semibold focus:outline-none text-white tracking-widest text-center"
                             />
                             
                             {/* Capsule Redeem Button */}
                             <button
                                 type="submit"
-                                className="w-full sm:w-auto px-8 py-4 rounded-full bg-[#2A120C] hover:bg-[#4A241A] border border-[#C07C4A]/30 text-white text-xs font-black uppercase tracking-widest transition-all duration-300 whitespace-nowrap shadow-lg hover:scale-102"
+                                className="w-full sm:w-auto px-8 py-4 rounded-lg bg-[#2A120C] hover:bg-[#4A241A] border border-[#C07C4A]/30 text-white text-xs font-black tracking-widest transition-all duration-300 whitespace-nowrap shadow-lg hover:scale-102"
                             >
                                 Redeem
                             </button>

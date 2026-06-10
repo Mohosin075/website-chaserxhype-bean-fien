@@ -243,7 +243,7 @@ export default function WebsiteHome() {
                     {/* Logo */}
                     <Link href="/" className="flex items-center gap-3 group">
                         <div className="w-16 h-16 rounded-full overflow-hidden bg-[#2C1711]/50 border border-white/20 flex items-center justify-center relative transition-transform duration-300 group-hover:scale-105">
-                            <img src="/logo.svg" alt="Bean Fien Logo" className="w-full h-full object-cover p-1.5" />
+                            <img src="/coffee_bean_mascot.png" alt="Bean Fien Logo" className="w-full h-full object-cover p-1.5" />
                         </div>
                     </Link>
 
@@ -307,11 +307,6 @@ export default function WebsiteHome() {
             <section id="home" className="relative z-30 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 md:py-20 flex flex-col lg:flex-row items-center gap-12 min-h-[calc(100vh-80px)] justify-center">
                 {/* Hero Content Left */}
                 <div className="flex-1 text-left space-y-6 max-w-xl">
-                    <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-[#E05A2B]/10 border border-[#E05A2B]/20">
-                        <span className="w-1.5 h-1.5 rounded-full bg-[#E05A2B] animate-ping" />
-                        <span className="text-[11px] font-bold uppercase tracking-widest text-[#E05A2B]">Now Open in Town</span>
-                    </div>
-
                     <div className="space-y-2">
                         <h1 className="font-sans text-6xl md:text-7xl font-black tracking-tight text-white leading-tight animate-fade-in">
                             Bean Fien.
@@ -329,13 +324,13 @@ export default function WebsiteHome() {
                     <div className="flex flex-wrap gap-4 pt-2">
                         <Link 
                             href="#daily-grind" 
-                            className="px-8 py-3.5 rounded-xl bg-[#2C120C] hover:bg-[#3E1A12] border border-[#E05A2B]/20 text-white text-sm font-bold tracking-wider uppercase transition-all duration-300 shadow-lg shadow-black/30 hover:scale-[1.02]"
+                            className="px-8 py-3.5 rounded-lg bg-[#2C120C] hover:bg-[#3E1A12] border border-[#E05A2B]/20 text-white text-sm font-bold tracking-wider uppercase transition-all duration-300 shadow-lg shadow-black/30 hover:scale-[1.02]"
                         >
                             Order Now
                         </Link>
                         <Link 
                             href="/rewards" 
-                            className="px-8 py-3.5 rounded-xl border border-white/40 hover:border-white/70 text-white text-sm font-bold tracking-wider uppercase transition-all duration-300 hover:bg-white/5"
+                            className="px-8 py-3.5 rounded-lg border border-white/40 hover:border-white/70 text-white text-sm font-bold tracking-wider uppercase transition-all duration-300 hover:bg-white/5"
                         >
                             Join Rewards
                         </Link>
@@ -346,7 +341,7 @@ export default function WebsiteHome() {
                 <div className="flex-1 w-full flex items-center justify-center relative min-h-[480px]">
                     <div className="flex items-center gap-4">
                         {/* Left Tall Image */}
-                        <div className="w-[260px] sm:w-[280px] md:w-[300px] h-[400px] sm:h-[450px] md:h-[480px] rounded-3xl overflow-hidden border border-white/10 shadow-2xl relative group">
+                        <div className="w-[260px] sm:w-[280px] md:w-[300px] h-[400px] sm:h-[450px] md:h-[480px] rounded-2xl overflow-hidden border border-white/10 shadow-2xl relative group">
                             <img 
                                 src="https://images.unsplash.com/photo-1541167760496-1628856ab772?auto=format&fit=crop&q=80&w=800" 
                                 alt="Coffee pouring splash" 
@@ -358,14 +353,14 @@ export default function WebsiteHome() {
                         <div className="flex flex-col gap-4 w-[260px] sm:w-[280px] md:w-[300px] h-[400px] sm:h-[450px] md:h-[480px]">
                             {/* Top Row: Two Smaller Images */}
                             <div className="flex gap-4 h-[190px] sm:h-[215px] md:h-[230px]">
-                                <div className="flex-1 rounded-2xl overflow-hidden border border-white/10 shadow-2xl relative group">
+                                <div className="flex-1 rounded-xl overflow-hidden border border-white/10 shadow-2xl relative group">
                                     <img 
                                         src="https://images.unsplash.com/photo-1509042239860-f550ce710b93?auto=format&fit=crop&q=80&w=500" 
                                         alt="Roasted coffee beans" 
                                         className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" 
                                     />
                                 </div>
-                                <div className="flex-1 rounded-2xl overflow-hidden border border-white/10 shadow-2xl relative group">
+                                <div className="flex-1 rounded-xl overflow-hidden border border-white/10 shadow-2xl relative group">
                                     <img 
                                         src="https://images.unsplash.com/photo-1514432324607-a09d9b4aefdd?auto=format&fit=crop&q=80&w=500" 
                                         alt="Espresso cup close up" 
@@ -375,7 +370,7 @@ export default function WebsiteHome() {
                             </div>
 
                             {/* Bottom Row: Wide Image */}
-                            <div className="flex-1 rounded-3xl overflow-hidden border border-white/10 shadow-2xl relative group">
+                            <div className="flex-1 rounded-2xl overflow-hidden border border-white/10 shadow-2xl relative group">
                                 <img 
                                     src="https://images.unsplash.com/photo-1517701604599-bb29b565090c?auto=format&fit=crop&q=80&w=600" 
                                     alt="Iced cream latte" 
@@ -461,7 +456,7 @@ export default function WebsiteHome() {
                                 </div>
                                 <Link 
                                     href="/menu/c3"
-                                    className="w-full py-3 rounded-xl bg-[#2A120C] hover:bg-[#4A241A] text-white text-xs font-bold uppercase tracking-widest transition-all duration-300 text-center block"
+                                    className="w-full py-3 rounded-lg bg-[#2A120C] hover:bg-[#4A241A] text-white text-xs font-bold uppercase tracking-widest transition-all duration-300 text-center block"
                                 >
                                     Add to Cart
                                 </Link>
@@ -489,7 +484,7 @@ export default function WebsiteHome() {
                                 </div>
                                 <Link 
                                     href="/menu/e2"
-                                    className="w-full py-3 rounded-xl bg-[#2A120C] hover:bg-[#4A241A] text-white text-xs font-bold uppercase tracking-widest transition-all duration-300 text-center block"
+                                    className="w-full py-3 rounded-lg bg-[#2A120C] hover:bg-[#4A241A] text-white text-xs font-bold uppercase tracking-widest transition-all duration-300 text-center block"
                                 >
                                     Add to Cart
                                 </Link>
@@ -500,7 +495,7 @@ export default function WebsiteHome() {
                         <div className="bg-[#FAF6F0] rounded-2xl overflow-hidden border border-[#2C1A14]/15 shadow-sm hover:shadow-lg transition-all duration-300 flex flex-col justify-between group hover:-translate-y-1.5 p-4">
                             <div className="h-64 sm:h-72 rounded-xl overflow-hidden relative">
                                 <img 
-                                    src="https://images.unsplash.com/photo-1513530534585-c7b1394c6d51?auto=format&fit=crop&q=80&w=500" 
+                                    src="https://images.unsplash.com/photo-1517701604599-bb29b565090c?auto=format&fit=crop&q=80&w=500" 
                                     alt="Citrus Ember espresso" 
                                     className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" 
                                 />
@@ -517,7 +512,7 @@ export default function WebsiteHome() {
                                 </div>
                                 <Link 
                                     href="/menu/s1"
-                                    className="w-full py-3 rounded-xl bg-[#2A120C] hover:bg-[#4A241A] text-white text-xs font-bold uppercase tracking-widest transition-all duration-300 text-center block"
+                                    className="w-full py-3 rounded-lg bg-[#2A120C] hover:bg-[#4A241A] text-white text-xs font-bold uppercase tracking-widest transition-all duration-300 text-center block"
                                 >
                                     Add to Cart
                                 </Link>
@@ -545,7 +540,7 @@ export default function WebsiteHome() {
                         {/* Express Checkout */}
                         <div className="bg-[#FAF6F0] p-8 rounded-2xl border border-[#2C1A14]/15 shadow-sm text-left space-y-4 hover:shadow-md transition-all duration-300">
                             <div className="w-12 h-12 rounded-xl bg-[#8B4513]/5 border border-[#8B4513]/10 flex items-center justify-center text-[#8B4513]">
-                                <Gauge className="w-6 h-6 stroke-1.5" />
+                                <CreditCard className="w-6 h-6 stroke-1.5" />
                             </div>
                             <h3 className="font-serif text-xl font-bold text-[#2C1A14]">Express Checkout</h3>
                             <p className="text-xs text-[#6B5E59] leading-relaxed">
@@ -628,11 +623,6 @@ export default function WebsiteHome() {
                                 alt="Coffee cups tray view" 
                                 className="w-full h-full object-cover rounded-2xl shadow-inner border border-white/5 group-hover:scale-[1.02] transition-transform duration-700"
                             />
-                            {/* Decorative badge overlay */}
-                            <div className="absolute bottom-10 right-10 z-20 bg-[#0A0503]/85 backdrop-blur-md px-4 py-2 rounded-xl border border-white/10 flex items-center gap-1.5 shadow-lg">
-                                <Star className="w-3.5 h-3.5 fill-[#C07C4A] text-[#C07C4A]" />
-                                <span className="text-[10px] uppercase tracking-wider text-white font-bold">Exclusive Drops</span>
-                            </div>
                         </div>
                     </div>
                 </div>
@@ -693,32 +683,35 @@ export default function WebsiteHome() {
                             </div>
 
                             {/* Mobile App Screen Content */}
-                            <div className="rounded-[2.2rem] overflow-hidden w-full h-full bg-[#F5EFEB] flex flex-col justify-between p-5 relative text-left">
+                            <div className="rounded-[2.2rem] overflow-hidden w-full h-full bg-[#0A0503] flex flex-col justify-between p-5 relative text-left border border-white/5">
+                                {/* Ambient Spotlight Glow */}
+                                <div className="absolute inset-0 pointer-events-none bg-[radial-gradient(circle_at_50%_30%,_rgba(224,90,43,0.15)_0%,_transparent_70%)]" />
+
                                 {/* Floating coffee beans decor */}
-                                <div className="absolute top-16 right-4 text-[10px] rotate-12 opacity-30 select-none">🍂</div>
-                                <div className="absolute bottom-32 left-3 text-[14px] -rotate-45 opacity-30 select-none">🍂</div>
+                                <div className="absolute top-16 right-4 text-[10px] rotate-12 opacity-15 select-none">🍂</div>
+                                <div className="absolute bottom-32 left-3 text-[14px] -rotate-45 opacity-15 select-none">🍂</div>
                                 
                                 {/* App Header Logo area */}
-                                <div className="flex flex-col items-center text-center mt-8 space-y-3">
-                                    <div className="w-16 h-16 rounded-full bg-[#3E1F17] flex items-center justify-center border border-[#8B4513] shadow-md p-1.5">
-                                        <img src="/logo.svg" alt="Bean Fien character" className="w-full h-full object-contain" />
+                                <div className="flex flex-col items-center text-center mt-8 space-y-3 relative z-10">
+                                    <div className="w-16 h-16 rounded-full bg-[#2C120C] flex items-center justify-center border border-[#C07C4A]/40 shadow-md p-1.5">
+                                        <img src="/coffee_bean_mascot.png" alt="Bean Fien character" className="w-full h-full object-contain" />
                                     </div>
-                                    <span className="text-[9px] font-bold text-zinc-400 tracking-widest uppercase">Est 2024</span>
+                                    <span className="text-[9px] font-bold text-[#C07C4A] tracking-widest uppercase">Est 2026</span>
                                 </div>
 
                                 {/* App Promo Slogan */}
-                                <div className="space-y-2 text-center py-4">
-                                    <h3 className="font-serif text-lg font-black text-[#2C1A14] leading-tight tracking-tight">
+                                <div className="space-y-2 text-center py-4 relative z-10">
+                                    <h3 className="font-serif text-lg font-black text-white leading-tight tracking-tight">
                                         AITA COFFEE,<br />
                                         SOFE & YOU
                                     </h3>
-                                    <p className="text-[9px] text-zinc-500 font-semibold italic">
+                                    <p className="text-[9px] text-[#FAF6F0]/60 font-semibold italic">
                                         Brewing comfort. Serving vibes.
                                     </p>
                                 </div>
 
                                 {/* Small Coffee cup image */}
-                                <div className="h-28 w-full rounded-2xl overflow-hidden shadow-inner my-2">
+                                <div className="h-28 w-full rounded-xl overflow-hidden shadow-inner my-2 border border-white/5 relative z-10">
                                     <img 
                                         src="https://images.unsplash.com/photo-1541167760496-1628856ab772?auto=format&fit=crop&q=80&w=400" 
                                         alt="Latte inside app" 
@@ -729,9 +722,9 @@ export default function WebsiteHome() {
                                 {/* Call to Action Start Button */}
                                 <button 
                                     type="button" 
-                                    className="w-full py-2.5 rounded-xl bg-[#2A120C] text-white text-[11px] font-bold uppercase tracking-widest text-center shadow-md shadow-[#2A120C]/35 hover:bg-[#4A241A] transition-colors"
+                                    className="w-full py-2.5 rounded-lg bg-[#C07C4A] text-[#140A07] text-[11px] font-bold uppercase tracking-widest text-center shadow-md shadow-[#C07C4A]/20 hover:bg-[#FAF6F0] transition-colors relative z-10"
                                 >
-                                    Get Start
+                                    Get Started
                                 </button>
                             </div>
                         </div>
@@ -770,7 +763,7 @@ export default function WebsiteHome() {
 
                 {/* Bottom branding and copyright */}
                 <div className="max-w-7xl mx-auto mt-16 pt-8 border-t border-white/5 flex flex-col items-center justify-center relative z-10 text-center">
-                    <h2 className="font-sans font-black text-[70px] sm:text-[100px] md:text-[130px] leading-none text-white/5 tracking-wider select-none mb-3 uppercase">
+                    <h2 className="font-sans font-black text-[70px] sm:text-[100px] md:text-[130px] leading-none text-white/[0.015] tracking-wider select-none mb-3 uppercase">
                         Bean Fien
                     </h2>
                     <p className="text-[11px] text-[#FAF6F0]/65 font-medium tracking-wide">
