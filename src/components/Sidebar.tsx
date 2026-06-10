@@ -23,12 +23,12 @@ interface MenuItem {
 
 const menuItems: MenuItem[] = [
     { title: "Dashboard", url: "/admin", icon: LayoutDashboard },
-    { title: "Orders", url: "/orders", icon: ShoppingBag },
-    { title: "Menu", url: "/menu", icon: Coffee },
-    { title: "Customers", url: "/customers", icon: Users },
-    { title: "Rewards", url: "/rewards", icon: Gift },
-    { title: "Analytics", url: "/analytics", icon: BarChart3 },
-    { title: "Settings", url: "/settings", icon: Settings },
+    { title: "Orders", url: "/admin/orders", icon: ShoppingBag },
+    { title: "Menu", url: "/admin/menu", icon: Coffee },
+    { title: "Customers", url: "/admin/customers", icon: Users },
+    { title: "Rewards", url: "/admin/rewards", icon: Gift },
+    { title: "Analytics", url: "/admin/analytics", icon: BarChart3 },
+    { title: "Settings", url: "/admin/settings", icon: Settings },
 ];
 
 export default function Sidebar() {

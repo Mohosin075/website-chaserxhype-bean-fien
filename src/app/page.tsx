@@ -58,14 +58,20 @@ const menuItems: MenuItem[] = [
     { id: "k2", name: "Pistachio Almond Tart", price: 4.50, description: "Sweet crust filled with almond cream and chopped roasted pistachios.", category: "bakery", image: "https://images.unsplash.com/photo-1509440159596-0249088772ff?auto=format&fit=crop&q=80&w=500" }
 ];
 
-interface CartItem {
+interface CustomCartItem {
+    id: string; // Unique instance id
     item: MenuItem;
     quantity: number;
+    size: "small" | "medium" | "large";
+    milk: "whole" | "oat" | "almond" | "coconut";
+    addons: string[];
+    instructions: string;
+    finalPrice: number;
 }
 
 export default function WebsiteHome() {
     const [mounted, setMounted] = useState(false);
-    const [cart, setCart] = useState<CartItem[]>([]);
+    const [cart, setCart] = useState<CustomCartItem[]>([]);
     const [isCartOpen, setIsCartOpen] = useState(false);
     const [menuTab, setMenuTab] = useState<"hot" | "iced" | "blended" | "bakery">("hot");
     
@@ -100,7 +106,7 @@ export default function WebsiteHome() {
         if (savedPhoto) setUserPhoto(savedPhoto);
 
         // Load cart from sessionStorage if available
-        const savedCart = sessionStorage.getItem("bf_cart");
+        const savedCart = sessionStorage.getItem("bf_cart_custom");
         if (savedCart) {
             try {
                 setCart(JSON.parse(savedCart));
@@ -111,35 +117,54 @@ export default function WebsiteHome() {
     }, []);
 
     // Save cart to session storage
-    const saveCart = (newCart: CartItem[]) => {
+    const saveCart = (newCart: CustomCartItem[]) => {
         setCart(newCart);
-        sessionStorage.setItem("bf_cart", JSON.stringify(newCart));
+        sessionStorage.setItem("bf_cart_custom", JSON.stringify(newCart));
     };
 
     const addToCart = (item: MenuItem) => {
-        const existing = cart.find(i => i.item.id === item.id);
+        const existing = cart.find(i => 
+            i.item.id === item.id && 
+            i.size === "small" && 
+            i.milk === "whole" && 
+            i.addons.length === 0
+        );
         if (existing) {
-            const updated = cart.map(i => i.item.id === item.id ? { ...i, quantity: i.quantity + 1 } : i);
+            const updated = cart.map(i => 
+                (i.item.id === item.id && i.size === "small" && i.milk === "whole" && i.addons.length === 0)
+                    ? { ...i, quantity: i.quantity + 1 } 
+                    : i
+            );
             saveCart(updated);
         } else {
-            saveCart([...cart, { item, quantity: 1 }]);
+            const newCartItem: CustomCartItem = {
+                id: `${item.id}-${Date.now()}`,
+                item,
+                quantity: 1,
+                size: "small",
+                milk: "whole",
+                addons: [],
+                instructions: "",
+                finalPrice: item.price
+            };
+            saveCart([...cart, newCartItem]);
         }
         showNotification(`Added ${item.name} to Cart`);
     };
 
     const updateQuantity = (itemId: string, delta: number) => {
         const updated = cart.map(i => {
-            if (i.item.id === itemId) {
+            if (i.id === itemId) {
                 const newQuantity = i.quantity + delta;
                 return newQuantity > 0 ? { ...i, quantity: newQuantity } : null;
             }
             return i;
-        }).filter(Boolean) as CartItem[];
+        }).filter(Boolean) as CustomCartItem[];
         saveCart(updated);
     };
 
     const removeFromCart = (itemId: string) => {
-        const updated = cart.filter(i => i.item.id !== itemId);
+        const updated = cart.filter(i => i.id !== itemId);
         saveCart(updated);
     };
 
@@ -177,7 +202,7 @@ export default function WebsiteHome() {
     };
 
     const totalCartItems = cart.reduce((sum, item) => sum + item.quantity, 0);
-    const cartSubtotal = cart.reduce((sum, item) => sum + (item.item.price * item.quantity), 0);
+    const cartSubtotal = cart.reduce((sum, item) => sum + (item.finalPrice * item.quantity), 0);
 
     if (!mounted) return null;
 
@@ -217,10 +242,10 @@ export default function WebsiteHome() {
 
                     {/* Desktop Menu */}
                     <nav className="hidden md:flex items-center gap-8 text-sm font-semibold tracking-wider uppercase">
-                        <Link href="#home" className="text-[#C07C4A] hover:text-[#C07C4A] transition-colors border-b-2 border-[#C07C4A] pb-1">Home</Link>
-                        <Link href="#daily-grind" className="text-[#FAF6F0]/80 hover:text-white transition-colors pb-1 border-b-2 border-transparent hover:border-[#C07C4A]/40">Menu</Link>
-                        <Link href="#loyalty" className="text-[#FAF6F0]/80 hover:text-white transition-colors pb-1 border-b-2 border-transparent hover:border-[#C07C4A]/40">Rewards</Link>
-                        <Link href="#app-promo" className="text-[#FAF6F0]/80 hover:text-white transition-colors pb-1 border-b-2 border-transparent hover:border-[#C07C4A]/40">Gift Cards</Link>
+                        <Link href="/" className="text-[#C07C4A] hover:text-[#C07C4A] transition-colors border-b-2 border-[#C07C4A] pb-1">Home</Link>
+                        <Link href="/menu" className="text-[#FAF6F0]/80 hover:text-white transition-colors pb-1 border-b-2 border-transparent hover:border-[#C07C4A]/40">Menu</Link>
+                        <Link href="/#loyalty" className="text-[#FAF6F0]/80 hover:text-white transition-colors pb-1 border-b-2 border-transparent hover:border-[#C07C4A]/40">Rewards</Link>
+                        <Link href="/#app-promo" className="text-[#FAF6F0]/80 hover:text-white transition-colors pb-1 border-b-2 border-transparent hover:border-[#C07C4A]/40">Gift Cards</Link>
                     </nav>
 
                     {/* Right utility buttons */}
@@ -458,12 +483,12 @@ export default function WebsiteHome() {
                                         12-hour cold extraction infused with nitrogen for a creamy, stout-like finish.
                                     </p>
                                 </div>
-                                <button 
-                                    onClick={() => addToCart(menuItems.find(i => i.id === "dg1")!)}
-                                    className="w-full py-3 rounded-xl bg-[#2A120C] hover:bg-[#4A241A] text-white text-xs font-bold uppercase tracking-widest transition-all duration-300"
+                                <Link 
+                                    href="/menu/c3"
+                                    className="w-full py-3 rounded-xl bg-[#2A120C] hover:bg-[#4A241A] text-white text-xs font-bold uppercase tracking-widest transition-all duration-300 text-center block"
                                 >
                                     Add to Cart
-                                </button>
+                                </Link>
                             </div>
                         </div>
 
@@ -486,12 +511,12 @@ export default function WebsiteHome() {
                                         Double ristretto shot paired with micro-foamed premium oat milk.
                                     </p>
                                 </div>
-                                <button 
-                                    onClick={() => addToCart(menuItems.find(i => i.id === "dg2")!)}
-                                    className="w-full py-3 rounded-xl bg-[#2A120C] hover:bg-[#4A241A] text-white text-xs font-bold uppercase tracking-widest transition-all duration-300"
+                                <Link 
+                                    href="/menu/e2"
+                                    className="w-full py-3 rounded-xl bg-[#2A120C] hover:bg-[#4A241A] text-white text-xs font-bold uppercase tracking-widest transition-all duration-300 text-center block"
                                 >
                                     Add to Cart
-                                </button>
+                                </Link>
                             </div>
                         </div>
 
@@ -514,12 +539,12 @@ export default function WebsiteHome() {
                                         A warming blend of spiced espresso and blood orange reduction.
                                     </p>
                                 </div>
-                                <button 
-                                    onClick={() => addToCart(menuItems.find(i => i.id === "dg3")!)}
-                                    className="w-full py-3 rounded-xl bg-[#2A120C] hover:bg-[#4A241A] text-white text-xs font-bold uppercase tracking-widest transition-all duration-300"
+                                <Link 
+                                    href="/menu/s1"
+                                    className="w-full py-3 rounded-xl bg-[#2A120C] hover:bg-[#4A241A] text-white text-xs font-bold uppercase tracking-widest transition-all duration-300 text-center block"
                                 >
                                     Add to Cart
-                                </button>
+                                </Link>
                             </div>
                         </div>
                     </div>
@@ -808,27 +833,35 @@ export default function WebsiteHome() {
                             {cart.length > 0 ? (
                                 cart.map((cartItem) => (
                                     <div 
-                                        key={cartItem.item.id}
-                                        className="flex gap-4 bg-[#140A07] p-3 rounded-2xl border border-white/5 text-left items-center justify-between"
+                                        key={cartItem.id}
+                                        className="flex gap-4 bg-[#140A07] p-3.5 rounded-2xl border border-white/5 text-left items-center justify-between"
                                     >
                                         <div className="w-16 h-16 rounded-xl overflow-hidden bg-[#24130F] flex-shrink-0">
                                             <img src={cartItem.item.image} alt={cartItem.item.name} className="w-full h-full object-cover" />
                                         </div>
                                         <div className="flex-1 space-y-1">
-                                            <h4 className="text-xs font-bold text-white truncate max-w-[150px]">{cartItem.item.name}</h4>
-                                            <p className="text-xs font-bold text-[#C07C4A]">${cartItem.item.price.toFixed(2)}</p>
+                                            <h4 className="text-xs font-bold text-white truncate max-w-[130px]">{cartItem.item.name}</h4>
+                                            <p className="text-[10px] text-white/50 leading-none">
+                                                Size: <span className="capitalize">{cartItem.size}</span> | Milk: <span className="capitalize">{cartItem.milk}</span>
+                                            </p>
+                                            {cartItem.addons && cartItem.addons.length > 0 && (
+                                                <p className="text-[9px] text-[#C07C4A] truncate max-w-[150px]">
+                                                    + {cartItem.addons.join(", ")}
+                                                </p>
+                                            )}
+                                            <p className="text-xs font-bold text-[#C07C4A]">${cartItem.finalPrice.toFixed(2)}</p>
                                             
                                             {/* Quantity Adjuster */}
                                             <div className="flex items-center gap-2.5 pt-1">
                                                 <button 
-                                                    onClick={() => updateQuantity(cartItem.item.id, -1)}
+                                                    onClick={() => updateQuantity(cartItem.id, -1)}
                                                     className="w-5 h-5 rounded bg-white/5 hover:bg-white/10 flex items-center justify-center transition-colors text-white"
                                                 >
                                                     <Minus className="w-3 h-3" />
                                                 </button>
-                                                <span className="text-xs font-bold">{cartItem.quantity}</span>
+                                                <span className="text-xs font-bold text-white">{cartItem.quantity}</span>
                                                 <button 
-                                                    onClick={() => updateQuantity(cartItem.item.id, 1)}
+                                                    onClick={() => updateQuantity(cartItem.id, 1)}
                                                     className="w-5 h-5 rounded bg-white/5 hover:bg-white/10 flex items-center justify-center transition-colors text-white"
                                                 >
                                                     <Plus className="w-3 h-3" />
@@ -836,7 +869,7 @@ export default function WebsiteHome() {
                                             </div>
                                         </div>
                                         <button 
-                                            onClick={() => removeFromCart(cartItem.item.id)}
+                                            onClick={() => removeFromCart(cartItem.id)}
                                             className="p-2 text-white/40 hover:text-red-400 transition-colors"
                                             title="Remove Item"
                                         >
