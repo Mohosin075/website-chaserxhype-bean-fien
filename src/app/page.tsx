@@ -214,53 +214,66 @@ export default function WebsiteHome() {
     if (!mounted) return null;
 
     return (
-        <div className="min-h-screen text-[#FAF6F0] bg-[#140A07] relative selection:bg-[#C07C4A] selection:text-[#140A07]">
+        <div className="min-h-screen text-[#FAF6F0] bg-[#080403] relative selection:bg-[#E05A2B] selection:text-[#080403] overflow-x-hidden">
             {/* Background Image Overlay */}
             <div 
-                className="absolute inset-0 bg-cover bg-center bg-no-repeat pointer-events-none opacity-35"
+                className="absolute inset-0 bg-cover bg-center bg-no-repeat pointer-events-none opacity-25"
                 style={{ 
                     backgroundImage: "url('/bg.jpg')",
-                    maskImage: "linear-gradient(to bottom, rgba(0,0,0,1) 40%, rgba(0,0,0,0.1) 85%, rgba(0,0,0,0) 100%)",
-                    WebkitMaskImage: "linear-gradient(to bottom, rgba(0,0,0,1) 40%, rgba(0,0,0,0.1) 85%, rgba(0,0,0,0) 100%)"
+                    filter: "brightness(0.4) contrast(1.2) saturate(0.9)",
+                    maskImage: "linear-gradient(to bottom, rgba(0,0,0,1) 50%, rgba(0,0,0,0.2) 85%, rgba(0,0,0,0) 100%)",
+                    WebkitMaskImage: "linear-gradient(to bottom, rgba(0,0,0,1) 50%, rgba(0,0,0,0.2) 85%, rgba(0,0,0,0) 100%)"
                 }}
             />
 
+            {/* Ambient Spotlight Radial Glow */}
+            <div className="absolute inset-0 pointer-events-none bg-[radial-gradient(circle_at_35%_25%,_rgba(224,99,40,0.14)_0%,_rgba(8,4,3,0.99)_75%)]" />
+
             {/* Notification Toast */}
             {notification && (
-                <div className="fixed bottom-5 right-5 z-50 bg-[#C07C4A] text-[#140A07] font-semibold px-5 py-3 rounded-xl shadow-2xl flex items-center gap-2 animate-bounce border border-[#FAF6F0]/20">
+                <div className="fixed bottom-5 right-5 z-50 bg-[#E05A2B] text-[#080403] font-bold px-5 py-3 rounded-xl shadow-2xl flex items-center gap-2 animate-bounce border border-[#FAF6F0]/20">
                     <Check className="w-4 h-4" />
                     <span>{notification}</span>
                 </div>
             )}
 
             {/* Header Navigation */}
-            <header className="relative z-40 border-b border-[#FAF6F0]/10 backdrop-blur-md bg-[#140A07]/60 sticky top-0 transition-all duration-300">
-                <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
+            <header className="relative z-45 bg-transparent sticky top-0 transition-all duration-300">
+                <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-24 flex items-center justify-between">
                     {/* Logo */}
                     <Link href="/" className="flex items-center gap-3 group">
-                        <div className="w-12 h-12 rounded-full overflow-hidden bg-[#2C1711] border border-[#C07C4A]/40 flex items-center justify-center relative transition-transform duration-300 group-hover:scale-105">
-                            <img src="/logo.svg" alt="Bean Fien Logo" className="w-full h-full object-cover p-1" />
+                        <div className="w-16 h-16 rounded-full overflow-hidden bg-[#2C1711]/50 border border-white/20 flex items-center justify-center relative transition-transform duration-300 group-hover:scale-105">
+                            <img src="/logo.svg" alt="Bean Fien Logo" className="w-full h-full object-cover p-1.5" />
                         </div>
                     </Link>
 
                     {/* Desktop Menu */}
-                    <nav className="hidden md:flex items-center gap-8 text-sm font-semibold tracking-wider uppercase">
-                        <Link href="/" className="text-[#C07C4A] hover:text-[#C07C4A] transition-colors border-b-2 border-[#C07C4A] pb-1">Home</Link>
-                        <Link href="/menu" className="text-[#FAF6F0]/80 hover:text-white transition-colors pb-1 border-b-2 border-transparent hover:border-[#C07C4A]/40">Menu</Link>
-                        <Link href="/rewards" className="text-[#FAF6F0]/80 hover:text-white transition-colors pb-1 border-b-2 border-transparent hover:border-[#C07C4A]/40">Rewards</Link>
-                        <Link href="/gift-cards" className="text-[#FAF6F0]/80 hover:text-white transition-colors pb-1 border-b-2 border-transparent hover:border-[#C07C4A]/40">Gift Cards</Link>
+                    <nav className="hidden md:flex items-center gap-8 text-sm font-medium tracking-wide">
+                        <Link href="/" className="relative text-[#E05A2B] hover:text-[#E05A2B] transition-colors pb-1.5">
+                            Home
+                            <span className="absolute bottom-0 left-0 right-0 h-[1.5px] bg-[#E05A2B] rounded-full" />
+                        </Link>
+                        <Link href="/menu" className="text-[#D4C5B9] hover:text-white transition-colors pb-1.5">
+                            Menu
+                        </Link>
+                        <Link href="/rewards" className="text-[#D4C5B9] hover:text-white transition-colors pb-1.5">
+                            Rewards
+                        </Link>
+                        <Link href="/gift-cards" className="text-[#D4C5B9] hover:text-white transition-colors pb-1.5">
+                            Gift Cards
+                        </Link>
                     </nav>
 
                     {/* Right utility buttons */}
-                    <div className="flex items-center gap-4">
+                    <div className="flex items-center gap-6">
                         {/* Cart Button */}
                         <button 
                             onClick={() => setIsCartOpen(true)}
-                            className="p-2.5 rounded-full hover:bg-white/5 transition-colors relative group"
+                            className="p-2 hover:bg-white/5 rounded-full transition-colors relative group"
                         >
-                            <ShoppingCart className="w-6 h-6 text-[#FAF6F0] group-hover:text-[#C07C4A] transition-colors" />
+                            <ShoppingCart className="w-6 h-6 text-[#FAF6F0] group-hover:text-[#E05A2B] transition-colors" />
                             {totalCartItems > 0 && (
-                                <span className="absolute -top-1 -right-1 bg-[#C07C4A] text-[#140A07] text-[10px] font-bold w-5 h-5 rounded-full flex items-center justify-center border border-[#140A07] animate-pulse">
+                                <span className="absolute -top-1 -right-1 bg-[#E05A2B] text-[#080403] text-[10px] font-bold w-5 h-5 rounded-full flex items-center justify-center border border-[#080403] animate-pulse">
                                     {totalCartItems}
                                 </span>
                             )}
@@ -274,14 +287,14 @@ export default function WebsiteHome() {
                                     showNotification("Successfully logged out");
                                     router.push("/auth/login");
                                 }}
-                                className="bg-[#2C120C] hover:bg-[#4A241A] text-[#FAF6F0] text-sm font-semibold tracking-wide px-6 py-2.5 rounded-full transition-colors"
+                                className="bg-[#2C120C] hover:bg-[#3E1A12] border border-[#E05A2B]/20 text-[#FAF6F0] text-sm font-semibold tracking-wide px-7 py-2.5 rounded-full transition-colors"
                             >
                                 Sign Out
                             </button>
                         ) : (
                             <Link 
                                 href="/auth/login"
-                                className="bg-[#C07C4A] hover:bg-[#A66637] text-white text-sm font-semibold tracking-wide px-6 py-2.5 rounded-full transition-colors text-center"
+                                className="bg-[#2C120C] hover:bg-[#3E1A12] border border-[#E05A2B]/20 text-[#FAF6F0] text-sm font-semibold tracking-wide px-7 py-2.5 rounded-full transition-colors text-center"
                             >
                                 Sign In
                             </Link>
@@ -294,16 +307,16 @@ export default function WebsiteHome() {
             <section id="home" className="relative z-30 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 md:py-20 flex flex-col lg:flex-row items-center gap-12 min-h-[calc(100vh-80px)] justify-center">
                 {/* Hero Content Left */}
                 <div className="flex-1 text-left space-y-6 max-w-xl">
-                    <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-[#C07C4A]/10 border border-[#C07C4A]/20">
-                        <span className="w-1.5 h-1.5 rounded-full bg-[#C07C4A] animate-ping" />
-                        <span className="text-[11px] font-bold uppercase tracking-widest text-[#C07C4A]">Now Open in Town</span>
+                    <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-[#E05A2B]/10 border border-[#E05A2B]/20">
+                        <span className="w-1.5 h-1.5 rounded-full bg-[#E05A2B] animate-ping" />
+                        <span className="text-[11px] font-bold uppercase tracking-widest text-[#E05A2B]">Now Open in Town</span>
                     </div>
 
                     <div className="space-y-2">
-                        <h1 className="font-serif text-6xl md:text-7xl font-extrabold tracking-tight text-white leading-tight animate-fade-in">
+                        <h1 className="font-sans text-6xl md:text-7xl font-black tracking-tight text-white leading-tight animate-fade-in">
                             Bean Fien.
                         </h1>
-                        <h2 className="font-serif text-4xl md:text-5xl font-normal italic text-[#D9531E] leading-tight">
+                        <h2 className="font-serif text-4xl md:text-5xl font-normal italic text-[#E05A2B] leading-tight">
                             A vibe for the ride
                         </h2>
                     </div>
@@ -316,72 +329,66 @@ export default function WebsiteHome() {
                     <div className="flex flex-wrap gap-4 pt-2">
                         <Link 
                             href="#daily-grind" 
-                            className="px-8 py-3.5 rounded-xl bg-[#5C2E16] hover:bg-[#8B4513] text-white text-sm font-bold tracking-wider uppercase transition-all duration-300 shadow-lg shadow-[#5C2E16]/30 hover:scale-[1.02]"
+                            className="px-8 py-3.5 rounded-xl bg-[#2C120C] hover:bg-[#3E1A12] border border-[#E05A2B]/20 text-white text-sm font-bold tracking-wider uppercase transition-all duration-300 shadow-lg shadow-black/30 hover:scale-[1.02]"
                         >
                             Order Now
                         </Link>
                         <Link 
                             href="/rewards" 
-                            className="px-8 py-3.5 rounded-xl border border-white/20 hover:border-white/50 text-white text-sm font-bold tracking-wider uppercase transition-all duration-300 hover:bg-white/5"
+                            className="px-8 py-3.5 rounded-xl border border-white/40 hover:border-white/70 text-white text-sm font-bold tracking-wider uppercase transition-all duration-300 hover:bg-white/5"
                         >
                             Join Rewards
                         </Link>
-                    </div>
-
-                    {/* Explore line */}
-                    <div className="pt-8 flex flex-col items-start gap-3">
-                        <span className="text-[10px] uppercase tracking-widest text-[#FAF6F0]/40 font-bold">Explore</span>
-                        <div className="w-[1px] h-14 bg-gradient-to-b from-[#C07C4A] to-transparent animate-pulse" />
                     </div>
                 </div>
 
                 {/* Hero Images Collage Right */}
                 <div className="flex-1 w-full flex items-center justify-center relative min-h-[480px]">
-                    {/* Splash Main Center Image */}
-                    <div className="w-[280px] sm:w-[320px] h-[400px] sm:h-[450px] rounded-3xl overflow-hidden shadow-2xl border border-white/10 z-10 transition-transform duration-500 hover:scale-[1.02] relative group">
-                        <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent z-10" />
-                        <img 
-                            src="https://images.unsplash.com/photo-1541167760496-1628856ab772?auto=format&fit=crop&q=80&w=800" 
-                            alt="Coffee pouring splash" 
-                            className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" 
-                        />
-                        <div className="absolute bottom-6 left-6 z-20">
-                            <span className="text-[10px] uppercase tracking-wider text-[#C07C4A] font-bold">House Blend</span>
-                            <h4 className="font-serif text-lg font-bold text-white mt-1">Rich Arabica Extract</h4>
+                    <div className="flex items-center gap-4">
+                        {/* Left Tall Image */}
+                        <div className="w-[260px] sm:w-[280px] md:w-[300px] h-[400px] sm:h-[450px] md:h-[480px] rounded-3xl overflow-hidden border border-white/10 shadow-2xl relative group">
+                            <img 
+                                src="https://images.unsplash.com/photo-1541167760496-1628856ab772?auto=format&fit=crop&q=80&w=800" 
+                                alt="Coffee pouring splash" 
+                                className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" 
+                            />
+                        </div>
+
+                        {/* Right Column Grid */}
+                        <div className="flex flex-col gap-4 w-[260px] sm:w-[280px] md:w-[300px] h-[400px] sm:h-[450px] md:h-[480px]">
+                            {/* Top Row: Two Smaller Images */}
+                            <div className="flex gap-4 h-[190px] sm:h-[215px] md:h-[230px]">
+                                <div className="flex-1 rounded-2xl overflow-hidden border border-white/10 shadow-2xl relative group">
+                                    <img 
+                                        src="https://images.unsplash.com/photo-1509042239860-f550ce710b93?auto=format&fit=crop&q=80&w=500" 
+                                        alt="Roasted coffee beans" 
+                                        className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" 
+                                    />
+                                </div>
+                                <div className="flex-1 rounded-2xl overflow-hidden border border-white/10 shadow-2xl relative group">
+                                    <img 
+                                        src="https://images.unsplash.com/photo-1514432324607-a09d9b4aefdd?auto=format&fit=crop&q=80&w=500" 
+                                        alt="Espresso cup close up" 
+                                        className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" 
+                                    />
+                                </div>
+                            </div>
+
+                            {/* Bottom Row: Wide Image */}
+                            <div className="flex-1 rounded-3xl overflow-hidden border border-white/10 shadow-2xl relative group">
+                                <img 
+                                    src="https://images.unsplash.com/photo-1517701604599-bb29b565090c?auto=format&fit=crop&q=80&w=600" 
+                                    alt="Iced cream latte" 
+                                    className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" 
+                                />
+                            </div>
                         </div>
                     </div>
+                </div>
 
-                    {/* Roasted Beans Stack top right */}
-                    <div className="absolute top-0 right-4 sm:right-12 w-[140px] sm:w-[160px] h-[180px] rounded-2xl overflow-hidden shadow-2xl border border-white/10 z-20 hidden sm:block transform translate-x-4 rotate-3 transition-transform duration-500 hover:rotate-0 hover:scale-105 group">
-                        <img 
-                            src="https://images.unsplash.com/photo-1509042239860-f550ce710b93?auto=format&fit=crop&q=80&w=500" 
-                            alt="Roasted coffee beans" 
-                            className="w-full h-full object-cover" 
-                        />
-                    </div>
-
-                    {/* Espresso Cup top right far */}
-                    <div className="absolute top-0 right-0 w-[140px] h-[180px] rounded-2xl overflow-hidden shadow-2xl border border-white/10 z-0 hidden lg:block transform translate-x-12 translate-y-16 -rotate-6 transition-transform duration-500 hover:rotate-0 hover:scale-105">
-                        <img 
-                            src="https://images.unsplash.com/photo-1514432324607-a09d9b4aefdd?auto=format&fit=crop&q=80&w=500" 
-                            alt="Espresso cup close up" 
-                            className="w-full h-full object-cover" 
-                        />
-                    </div>
-
-                    {/* Swirled Iced Drink bottom right */}
-                    <div className="absolute bottom-4 right-0 sm:right-6 w-[260px] sm:w-[280px] h-[200px] rounded-3xl overflow-hidden shadow-2xl border border-white/10 z-20 transition-transform duration-500 hover:scale-105 group">
-                        <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent z-10" />
-                        <img 
-                            src="https://images.unsplash.com/photo-1517701604599-bb29b565090c?auto=format&fit=crop&q=80&w=600" 
-                            alt="Iced cream latte" 
-                            className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" 
-                        />
-                        <div className="absolute bottom-5 left-5 z-20">
-                            <span className="text-[10px] uppercase tracking-wider text-[#C07C4A] font-bold">Cold & Creamy</span>
-                            <h4 className="font-serif text-base font-bold text-white mt-0.5">Iced Swirl Signature</h4>
-                        </div>
-                    </div>
+                {/* Explore text centered at the bottom */}
+                <div className="absolute bottom-0 left-1/2 -translate-x-1/2 flex flex-col items-center gap-1 pointer-events-none">
+                    <span className="text-[10px] uppercase tracking-[0.25em] text-[#FAF6F0]/65 font-bold">Explore</span>
                 </div>
             </section>
 

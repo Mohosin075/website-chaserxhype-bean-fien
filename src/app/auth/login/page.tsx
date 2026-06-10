@@ -67,13 +67,13 @@ export default function LoginPage() {
     return (
         <div className="w-full flex flex-col items-center">
             {/* Mascot Character Logo */}
-            <div className="w-20 h-20 rounded-full bg-[#1E0F0B] border-2 border-[#C07C4A]/40 flex items-center justify-center p-2 mb-4 shadow-xl shadow-black/40 animate-fade-in">
+            <div className="w-20 h-20 rounded-full bg-[#2C1711]/45 border border-[#C07C4A]/30 flex items-center justify-center p-2 mb-4 shadow-xl shadow-black/40 animate-fade-in">
                 <img src="/logo.svg" alt="Bean Fien Mascot" className="w-full h-full object-contain" />
             </div>
 
             {/* Brand Title */}
-            <h1 className="font-serif text-4xl sm:text-5xl font-black text-white tracking-wide mb-8 drop-shadow-[0_2px_10px_rgba(0,0,0,0.5)]">
-                Bean Fien
+            <h1 className="font-sans text-4xl sm:text-5xl font-black text-white tracking-tight mb-8 drop-shadow-[0_2px_10px_rgba(0,0,0,0.5)]">
+                Bean Fien.
             </h1>
 
             {/* Frosted Glass Form Card */}
@@ -172,6 +172,39 @@ export default function LoginPage() {
                         ) : (
                             <span>Sign In</span>
                         )}
+                    </button>
+
+                    {/* Divider */}
+                    <div className="flex items-center gap-3 my-4">
+                        <div className="h-[1px] flex-1 bg-[#C07C4A]/20" />
+                        <span className="text-[10px] font-bold uppercase tracking-widest text-[#C07C4A]/60">Or</span>
+                        <div className="h-[1px] flex-1 bg-[#C07C4A]/20" />
+                    </div>
+
+                    {/* Demo Login Button */}
+                    <button
+                        type="button"
+                        onClick={() => {
+                            setEmail("admin@beanfien.com");
+                            setPassword("password123");
+                            setIsLoading(true);
+                            setTimeout(() => {
+                                setIsLoading(false);
+                                localStorage.setItem("bf_admin_name", "Elias Thorne");
+                                localStorage.setItem("bf_admin_role", "Super Admin");
+                                localStorage.setItem("bf_admin_photo", "https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&q=80&w=250");
+                                dispatch(setCredentials({
+                                    accessToken: "mock-bean-fien-access-token",
+                                    role: "ADMIN"
+                                }));
+                                toast.success("Welcome back! Signed in with Demo Account.");
+                                router.push("/admin");
+                            }, 800);
+                        }}
+                        disabled={isLoading}
+                        className="w-full bg-[#2C120C] hover:bg-[#3E1A12] border border-[#C07C4A]/30 text-[#FAF6F0] font-bold py-3 px-4 rounded-xl transition-all duration-300 uppercase tracking-widest text-xs flex items-center justify-center gap-2"
+                    >
+                        <span>Demo Login</span>
                     </button>
                 </form>
 
