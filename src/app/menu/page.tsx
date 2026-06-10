@@ -2,6 +2,9 @@
 
 import React, { useState, useEffect } from "react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
+import { useAppDispatch, useAppSelector } from "@/redux/hooks";
+import { logout, selectIsAuthenticated } from "@/redux/features/auth/authSlice";
 import { 
     ShoppingBag, 
     ChevronDown, 
@@ -66,6 +69,9 @@ const categoryDisplayNames = {
 type CategoryType = "espresso" | "coldbrew" | "seasonal" | "bakery";
 
 export default function CustomerMenu() {
+    const router = useRouter();
+    const dispatch = useAppDispatch();
+    const isAuthenticated = useAppSelector(selectIsAuthenticated);
     const [mounted, setMounted] = useState(false);
     const [cart, setCart] = useState<CustomCartItem[]>([]);
     const [isCartOpen, setIsCartOpen] = useState(false);
@@ -188,60 +194,71 @@ export default function CustomerMenu() {
                             )}
                         </button>
 
-                        {/* Profile Dropdown */}
-                        <div className="relative">
-                            <button 
-                                onClick={() => setIsProfileOpen(!isProfileOpen)}
-                                className="flex items-center gap-2 px-3 py-1.5 rounded-full border border-[#2C1A14]/15 bg-[#2C1A14]/5 hover:bg-[#2C1A14]/10 transition-all text-left"
-                            >
-                                <div className="w-8 h-8 rounded-full overflow-hidden bg-[#C07C4A]/20 border border-[#C07C4A]/30 flex items-center justify-center relative">
-                                    {userPhoto ? (
-                                        <img src={userPhoto} alt="Admin" className="w-full h-full object-cover" />
-                                    ) : (
-                                        <span className="text-xs font-bold text-[#C07C4A]">BF</span>
-                                    )}
-                                </div>
-                                <span className="text-xs font-semibold hidden md:inline-block pr-1 text-[#2C1A14]">{userName}</span>
-                                <ChevronDown className="w-3.5 h-3.5 text-[#C07C4A] hidden md:block" />
-                            </button>
+                        {/* Auth Button / Profile Dropdown */}
+                        {isAuthenticated ? (
+                            <div className="relative">
+                                <button 
+                                    onClick={() => setIsProfileOpen(!isProfileOpen)}
+                                    className="flex items-center gap-2 px-3 py-1.5 rounded-full border border-[#2C1A14]/15 bg-[#2C1A14]/5 hover:bg-[#2C1A14]/10 transition-all text-left"
+                                >
+                                    <div className="w-8 h-8 rounded-full overflow-hidden bg-[#C07C4A]/20 border border-[#C07C4A]/30 flex items-center justify-center relative">
+                                        {userPhoto ? (
+                                            <img src={userPhoto} alt="Admin" className="w-full h-full object-cover" />
+                                        ) : (
+                                            <span className="text-xs font-bold text-[#C07C4A]">BF</span>
+                                        )}
+                                    </div>
+                                    <span className="text-xs font-semibold hidden md:inline-block pr-1 text-[#2C1A14]">{userName}</span>
+                                    <ChevronDown className="w-3.5 h-3.5 text-[#C07C4A] hidden md:block" />
+                                </button>
 
-                            {/* Dropdown Menu */}
-                            {isProfileOpen && (
-                                <div className="absolute right-0 mt-3 w-56 rounded-2xl bg-[#1E0F0B] border border-[#C07C4A]/30 shadow-2xl p-2 z-50">
-                                    <div className="px-4 py-3 border-b border-white/5 text-left">
-                                        <p className="text-xs text-[#C07C4A] font-bold uppercase tracking-wider">{userRole}</p>
-                                        <p className="text-sm font-semibold text-white truncate">{userName}</p>
+                                {/* Dropdown Menu */}
+                                {isProfileOpen && (
+                                    <div className="absolute right-0 mt-3 w-56 rounded-2xl bg-[#1E0F0B] border border-[#C07C4A]/30 shadow-2xl p-2 z-50">
+                                        <div className="px-4 py-3 border-b border-white/5 text-left">
+                                            <p className="text-xs text-[#C07C4A] font-bold uppercase tracking-wider">{userRole}</p>
+                                            <p className="text-sm font-semibold text-white truncate">{userName}</p>
+                                        </div>
+                                        <div className="py-1.5 space-y-1">
+                                            <Link 
+                                                href="/admin" 
+                                                onClick={() => setIsProfileOpen(false)}
+                                                className="flex items-center w-full px-4 py-2.5 text-sm rounded-xl hover:bg-white/5 text-white hover:text-[#C07C4A] transition-all font-semibold"
+                                            >
+                                                Dashboard
+                                            </Link>
+                                            <Link 
+                                                href="/admin/settings" 
+                                                onClick={() => setIsProfileOpen(false)}
+                                                className="flex items-center w-full px-4 py-2.5 text-sm rounded-xl hover:bg-white/5 text-white hover:text-[#C07C4A] transition-all font-semibold"
+                                            >
+                                                Settings
+                                            </Link>
+                                        </div>
+                                        <div className="pt-1.5 border-t border-white/5">
+                                            <button 
+                                                onClick={() => {
+                                                    setIsProfileOpen(false);
+                                                    dispatch(logout());
+                                                    showNotification("Successfully logged out");
+                                                    router.push("/auth/login");
+                                                }}
+                                                className="flex items-center w-full px-4 py-2.5 text-sm rounded-xl hover:bg-red-500/10 text-red-400 font-semibold text-left transition-colors"
+                                            >
+                                                Sign Out
+                                            </button>
+                                        </div>
                                     </div>
-                                    <div className="py-1.5 space-y-1">
-                                        <Link 
-                                            href="/admin" 
-                                            onClick={() => setIsProfileOpen(false)}
-                                            className="flex items-center w-full px-4 py-2.5 text-sm rounded-xl hover:bg-white/5 text-white hover:text-[#C07C4A] transition-all font-semibold"
-                                        >
-                                            Dashboard
-                                        </Link>
-                                        <Link 
-                                            href="/admin/settings" 
-                                            onClick={() => setIsProfileOpen(false)}
-                                            className="flex items-center w-full px-4 py-2.5 text-sm rounded-xl hover:bg-white/5 text-white hover:text-[#C07C4A] transition-all font-semibold"
-                                        >
-                                            Settings
-                                        </Link>
-                                    </div>
-                                    <div className="pt-1.5 border-t border-white/5">
-                                        <button 
-                                            onClick={() => {
-                                                setIsProfileOpen(false);
-                                                showNotification("Successfully logged out (mock)");
-                                            }}
-                                            className="flex items-center w-full px-4 py-2.5 text-sm rounded-xl hover:bg-red-500/10 text-red-400 font-semibold text-left transition-colors"
-                                        >
-                                            Sign Out
-                                        </button>
-                                    </div>
-                                </div>
-                            )}
-                        </div>
+                                )}
+                            </div>
+                        ) : (
+                            <Link 
+                                href="/auth/login"
+                                className="bg-[#2C120C] hover:bg-[#4A241A] text-[#FAF6F0] text-sm font-semibold tracking-wide px-6 py-2.5 rounded-full transition-colors text-center"
+                            >
+                                Sign In
+                            </Link>
+                        )}
                     </div>
                 </div>
             </header>

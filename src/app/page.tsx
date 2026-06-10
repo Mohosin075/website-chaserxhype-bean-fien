@@ -2,8 +2,12 @@
 
 import React, { useState, useEffect } from "react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
+import { useAppDispatch, useAppSelector } from "@/redux/hooks";
+import { logout, selectIsAuthenticated } from "@/redux/features/auth/authSlice";
 import { 
     ShoppingBag, 
+    ShoppingCart,
     ChevronDown, 
     Plus, 
     Minus, 
@@ -70,6 +74,9 @@ interface CustomCartItem {
 }
 
 export default function WebsiteHome() {
+    const router = useRouter();
+    const dispatch = useAppDispatch();
+    const isAuthenticated = useAppSelector(selectIsAuthenticated);
     const [mounted, setMounted] = useState(false);
     const [cart, setCart] = useState<CustomCartItem[]>([]);
     const [isCartOpen, setIsCartOpen] = useState(false);
@@ -234,10 +241,6 @@ export default function WebsiteHome() {
                         <div className="w-12 h-12 rounded-full overflow-hidden bg-[#2C1711] border border-[#C07C4A]/40 flex items-center justify-center relative transition-transform duration-300 group-hover:scale-105">
                             <img src="/logo.svg" alt="Bean Fien Logo" className="w-full h-full object-cover p-1" />
                         </div>
-                        <div className="hidden sm:block">
-                            <span className="font-serif text-lg font-bold tracking-wider block leading-none text-white">Bean Fien</span>
-                            <span className="text-[9px] uppercase tracking-widest text-[#C07C4A] font-bold">Specialty Coffee</span>
-                        </div>
                     </Link>
 
                     {/* Desktop Menu */}
@@ -255,7 +258,7 @@ export default function WebsiteHome() {
                             onClick={() => setIsCartOpen(true)}
                             className="p-2.5 rounded-full hover:bg-white/5 transition-colors relative group"
                         >
-                            <ShoppingBag className="w-6 h-6 text-[#FAF6F0] group-hover:text-[#C07C4A] transition-colors" />
+                            <ShoppingCart className="w-6 h-6 text-[#FAF6F0] group-hover:text-[#C07C4A] transition-colors" />
                             {totalCartItems > 0 && (
                                 <span className="absolute -top-1 -right-1 bg-[#C07C4A] text-[#140A07] text-[10px] font-bold w-5 h-5 rounded-full flex items-center justify-center border border-[#140A07] animate-pulse">
                                     {totalCartItems}
@@ -263,60 +266,26 @@ export default function WebsiteHome() {
                             )}
                         </button>
 
-                        {/* Profile Dropdown */}
-                        <div className="relative">
+                        {/* Auth Button */}
+                        {isAuthenticated ? (
                             <button 
-                                onClick={() => setIsProfileOpen(!isProfileOpen)}
-                                className="flex items-center gap-2 px-3 py-1.5 rounded-full border border-white/10 bg-white/5 hover:bg-white/10 transition-all text-left"
+                                onClick={() => {
+                                    dispatch(logout());
+                                    showNotification("Successfully logged out");
+                                    router.push("/auth/login");
+                                }}
+                                className="bg-[#2C120C] hover:bg-[#4A241A] text-[#FAF6F0] text-sm font-semibold tracking-wide px-6 py-2.5 rounded-full transition-colors"
                             >
-                                <div className="w-8 h-8 rounded-full overflow-hidden bg-[#C07C4A]/20 border border-[#C07C4A]/30 flex items-center justify-center relative">
-                                    {userPhoto ? (
-                                        <img src={userPhoto} alt="Admin" className="w-full h-full object-cover" />
-                                    ) : (
-                                        <span className="text-xs font-bold text-[#C07C4A]">BF</span>
-                                    )}
-                                </div>
-                                <span className="text-xs font-semibold hidden md:inline-block pr-1 text-white">{userName}</span>
-                                <ChevronDown className="w-3.5 h-3.5 text-[#C07C4A] hidden md:block" />
+                                Sign Out
                             </button>
-
-                            {/* Dropdown Menu */}
-                            {isProfileOpen && (
-                                <div className="absolute right-0 mt-3 w-56 rounded-2xl bg-[#1E0F0B] border border-[#C07C4A]/30 shadow-2xl p-2 z-50 animate-in fade-in slide-in-from-top-2 duration-200">
-                                    <div className="px-4 py-3 border-b border-white/5 text-left">
-                                        <p className="text-xs text-[#C07C4A] font-bold uppercase tracking-wider">{userRole}</p>
-                                        <p className="text-sm font-semibold text-white truncate">{userName}</p>
-                                    </div>
-                                    <div className="py-1.5 space-y-1">
-                                        <Link 
-                                            href="/admin" 
-                                            onClick={() => setIsProfileOpen(false)}
-                                            className="flex items-center w-full px-4 py-2.5 text-sm rounded-xl hover:bg-white/5 text-white hover:text-[#C07C4A] transition-all font-semibold"
-                                        >
-                                            Dashboard
-                                        </Link>
-                                        <Link 
-                                            href="/admin/settings" 
-                                            onClick={() => setIsProfileOpen(false)}
-                                            className="flex items-center w-full px-4 py-2.5 text-sm rounded-xl hover:bg-white/5 text-white hover:text-[#C07C4A] transition-all font-semibold"
-                                        >
-                                            Settings
-                                        </Link>
-                                    </div>
-                                    <div className="pt-1.5 border-t border-white/5">
-                                        <button 
-                                            onClick={() => {
-                                                setIsProfileOpen(false);
-                                                showNotification("Successfully logged out (mock)");
-                                            }}
-                                            className="flex items-center w-full px-4 py-2.5 text-sm rounded-xl hover:bg-red-500/10 text-red-400 font-semibold text-left transition-colors"
-                                        >
-                                            Sign Out
-                                        </button>
-                                    </div>
-                                </div>
-                            )}
-                        </div>
+                        ) : (
+                            <Link 
+                                href="/auth/login"
+                                className="bg-[#C07C4A] hover:bg-[#A66637] text-white text-sm font-semibold tracking-wide px-6 py-2.5 rounded-full transition-colors text-center"
+                            >
+                                Sign In
+                            </Link>
+                        )}
                     </div>
                 </div>
             </header>

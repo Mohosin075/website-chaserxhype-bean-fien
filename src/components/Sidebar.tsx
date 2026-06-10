@@ -1,7 +1,10 @@
 "use client";
 import React, { useState } from "react";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
+import { useAppDispatch } from "@/redux/hooks";
+import { logout } from "@/redux/features/auth/authSlice";
+import { toast } from "sonner";
 import { 
     LayoutDashboard, 
     ShoppingBag, 
@@ -33,9 +36,17 @@ const menuItems: MenuItem[] = [
 
 export default function Sidebar() {
     const pathname = usePathname();
+    const router = useRouter();
+    const dispatch = useAppDispatch();
     const [isOpen, setIsOpen] = useState(false);
 
     const toggleSidebar = () => setIsOpen(!isOpen);
+
+    const handleLogout = () => {
+        dispatch(logout());
+        toast.success("Successfully logged out");
+        router.push("/auth/login");
+    };
 
     return (
         <>
@@ -112,14 +123,20 @@ export default function Sidebar() {
                 </div>
 
                 {/* Footer Section */}
-                <div className="p-4 border-t border-[#2C1711]">
+                <div className="p-4 border-t border-[#2C1711] space-y-2">
                     <Link 
                         href="/"
+                        className="w-full flex items-center justify-center gap-2 px-4 py-2.5 hover:bg-[#251410] text-[#C4B4A5] hover:text-white rounded-xl transition-all duration-200 text-sm font-medium"
+                    >
+                        <span>View Website</span>
+                    </Link>
+                    <button 
+                        onClick={handleLogout}
                         className="w-full flex items-center justify-center gap-2 px-4 py-3 bg-[#2D1616] hover:bg-[#3E1F1F] text-[#FCA5A5] hover:text-white rounded-xl transition-all duration-200 border border-[#4A2020] text-sm font-medium"
                     >
                         <LogOut className="w-4 h-4" />
-                        <span>Exit Admin</span>
-                    </Link>
+                        <span>Sign Out</span>
+                    </button>
                 </div>
             </aside>
 

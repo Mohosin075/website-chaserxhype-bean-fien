@@ -2,6 +2,9 @@
 
 import React, { useState, useEffect } from "react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
+import { useAppDispatch, useAppSelector } from "@/redux/hooks";
+import { logout, selectIsAuthenticated } from "@/redux/features/auth/authSlice";
 import { 
     ShoppingCart, 
     Plus, 
@@ -67,6 +70,9 @@ const cardDesigns = [
 ];
 
 export default function GiftCardsPage() {
+    const router = useRouter();
+    const dispatch = useAppDispatch();
+    const isAuthenticated = useAppSelector(selectIsAuthenticated);
     const [mounted, setMounted] = useState(false);
     const [cart, setCart] = useState<CustomCartItem[]>([]);
     const [isCartOpen, setIsCartOpen] = useState(false);
@@ -273,13 +279,26 @@ export default function GiftCardsPage() {
                             )}
                         </button>
 
-                        {/* Sign Out Capsule Button */}
-                        <button 
-                            onClick={() => showNotification("Successfully logged out (mock)")}
-                            className="bg-[#2C120C] hover:bg-[#4A241A] text-[#FAF6F0] text-sm font-semibold tracking-wide px-6 py-2.5 rounded-full transition-colors"
-                        >
-                            Sign Out
-                        </button>
+                        {/* Auth Button */}
+                        {isAuthenticated ? (
+                            <button 
+                                onClick={() => {
+                                    dispatch(logout());
+                                    showNotification("Successfully logged out");
+                                    router.push("/auth/login");
+                                }}
+                                className="bg-[#2C120C] hover:bg-[#4A241A] text-[#FAF6F0] text-sm font-semibold tracking-wide px-6 py-2.5 rounded-full transition-colors"
+                            >
+                                Sign Out
+                            </button>
+                        ) : (
+                            <Link 
+                                href="/auth/login"
+                                className="bg-[#C07C4A] hover:bg-[#A66637] text-white text-sm font-semibold tracking-wide px-6 py-2.5 rounded-full transition-colors text-center"
+                            >
+                                Sign In
+                            </Link>
+                        )}
                     </div>
                 </div>
             </header>
