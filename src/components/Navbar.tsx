@@ -87,9 +87,9 @@ export default function Navbar({ theme = "light", transparent = false }: NavbarP
                             : "bg-[#2C1711] border border-[#C07C4A]/40"
                     }`}>
                         <img 
-                            src="/coffee_bean_mascot.png" 
+                            src="/logo.png" 
                             alt="Bean Fien Logo" 
-                            className="w-full h-full object-cover p-0.5" 
+                            className="w-full h-full object-contain p-0.5" 
                         />
                     </div>
                     {!isDark && (

@@ -54,7 +54,7 @@ function ResetPasswordContent() {
         <div className="w-full flex flex-col items-center">
             {/* Mascot Character Logo */}
             <div className="w-20 h-20 rounded-full bg-[#1E0F0B] border-2 border-[#C07C4A]/40 flex items-center justify-center p-2 mb-4 shadow-xl shadow-black/40 animate-fade-in">
-                <img src="/logo.svg" alt="Bean Fien Mascot" className="w-full h-full object-contain" />
+                <img src="/logo.png" alt="Bean Fien Logo" className="w-full h-full object-contain" />
             </div>
 
             {/* Brand Title */}

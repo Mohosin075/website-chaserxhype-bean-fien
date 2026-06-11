@@ -5,12 +5,12 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import { logout, selectIsAuthenticated } from "@/redux/features/auth/authSlice";
-import { 
-    ShoppingCart, 
-    Plus, 
-    Minus, 
-    Trash2, 
-    Check, 
+import {
+    ShoppingCart,
+    Plus,
+    Minus,
+    Trash2,
+    Check,
     X,
     ShoppingBag,
     Gift,
@@ -30,10 +30,10 @@ export default function RewardsPage() {
     const dispatch = useAppDispatch();
     const isAuthenticated = useAppSelector(selectIsAuthenticated);
     const [mounted, setMounted] = useState(false);
-    
+
     // User Balance state
     const [pointsBalance, setPointsBalance] = useState(1240);
-    
+
     const { cart, addToCart } = useCart();
 
     useEffect(() => {
@@ -64,7 +64,7 @@ export default function RewardsPage() {
     // Add reward item to cart
     const handleAddRewardToCart = (pointsCost: number, name: string, baseId: string) => {
         const baseItem = menuItems.find(i => i.id === baseId) || menuItems.find(i => i.name === "Vanilla Sweet Cream") || menuItems[0];
-        
+
         setPointsBalance(prev => prev - pointsCost);
 
         const newCartItem: CustomCartItem = {
@@ -96,7 +96,7 @@ export default function RewardsPage() {
             {/* HERO / STATUS SECTION (Reference Image 1) */}
             <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 text-left">
                 <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
-                    
+
                     {/* Left Details */}
                     <div className="lg:col-span-7 space-y-10">
                         <h1 className="font-serif text-5xl md:text-6xl lg:text-7xl font-extrabold tracking-tight text-[#2C1A14] leading-tight">
@@ -119,19 +119,13 @@ export default function RewardsPage() {
                     {/* Right Mascot Illustration - Rendered Directly on Background, No Card Border */}
                     <div className="lg:col-span-5 flex flex-col items-center justify-center">
                         <div className="relative flex flex-col items-center justify-center max-w-sm w-full group">
-                            
-                            {/* Mascot Image */}
+
                             <div className="w-80 h-80 relative">
-                                <img 
-                                    src="/coffee_bean_mascot.png" 
-                                    alt="Bean Fien Mascot" 
+                                <img
+                                    src="/reward.png"
+                                    alt="Bean Fien Rewards"
                                     className="w-full h-full object-contain transition-transform duration-500 group-hover:scale-102"
                                 />
-                                
-                                {/* Overlay Mug fill badge showing 10% */}
-                                <div className="absolute top-[68%] left-[62%] -translate-x-1/2 -translate-y-1/2 text-[#2C1A14] font-black text-xs sm:text-sm tracking-wide bg-transparent">
-                                    10%
-                                </div>
                             </div>
 
                             {/* Center-aligned Redeem Reward button directly below Mascot */}
@@ -152,7 +146,7 @@ export default function RewardsPage() {
             {/* CATALOG SECTION (Reference Image 2) */}
             <section className="bg-[#FAF6F0] py-16 text-left border-t border-[#2C1A14]/10">
                 <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-10">
-                    
+
                     {/* Catalog Header */}
                     <div className="space-y-1">
                         <span className="text-[#C07C4A] text-xs font-bold uppercase tracking-widest block">
@@ -165,17 +159,17 @@ export default function RewardsPage() {
 
                     {/* Grid of Catalog Cards */}
                     <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-                        
+
                         {/* 50 PTS Card */}
                         <div className="bg-[#FAF6F0] rounded-2xl border border-[#2C1A14]/10 p-5 flex flex-col justify-between hover:shadow-lg transition-all duration-300 group hover:-translate-y-1">
                             <div className="relative h-64 rounded-xl overflow-hidden mb-5">
                                 <span className="absolute top-4.5 left-4.5 z-10 bg-[#2C120C] text-white text-[10px] font-black uppercase tracking-wider py-1.5 px-3 rounded-lg">
                                     50 PTS
                                 </span>
-                                <img 
-                                    src="https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?auto=format&fit=crop&w=500&q=80" 
-                                    alt="Vanilla Sweet Cream" 
-                                    className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" 
+                                <img
+                                    src="https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?auto=format&fit=crop&w=500&q=80"
+                                    alt="Vanilla Sweet Cream"
+                                    className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
                                 />
                             </div>
                             <div className="space-y-5 flex flex-col flex-1 justify-between text-center">
@@ -187,10 +181,10 @@ export default function RewardsPage() {
                                         House-made cold brew topped with a float of vanilla-infused sweet cream.
                                     </p>
                                 </div>
-                                
+
                                 {/* Centered Add to Cart button */}
                                 <div className="w-full flex justify-center pt-2">
-                                    <button 
+                                    <button
                                         onClick={() => handleAddRewardToCart(50, "Vanilla Sweet Cream (50 PTS)", "c2")}
                                         className="px-8 py-2.5 rounded-lg bg-[#2C120C] hover:bg-[#4A241A] text-white text-xs font-bold tracking-wider transition-colors"
                                     >
@@ -206,10 +200,10 @@ export default function RewardsPage() {
                                 <span className="absolute top-4.5 left-4.5 z-10 bg-[#2C120C] text-white text-[10px] font-black uppercase tracking-wider py-1.5 px-3 rounded-lg">
                                     150 PTS
                                 </span>
-                                <img 
-                                    src="https://images.unsplash.com/photo-1517701604599-bb29b565090c?auto=format&fit=crop&w=500&q=80" 
-                                    alt="Oat Silk Latte" 
-                                    className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" 
+                                <img
+                                    src="https://images.unsplash.com/photo-1517701604599-bb29b565090c?auto=format&fit=crop&w=500&q=80"
+                                    alt="Oat Silk Latte"
+                                    className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
                                 />
                             </div>
                             <div className="space-y-5 flex flex-col flex-1 justify-between text-center">
@@ -221,10 +215,10 @@ export default function RewardsPage() {
                                         Double ristretto shot paired with micro-foamed premium oat milk.
                                     </p>
                                 </div>
-                                
+
                                 {/* Centered Add to Cart button */}
                                 <div className="w-full flex justify-center pt-2">
-                                    <button 
+                                    <button
                                         onClick={() => handleAddRewardToCart(150, "Oat Silk Latte (150 PTS)", "dg2")}
                                         className="px-8 py-2.5 rounded-lg bg-[#2C120C] hover:bg-[#4A241A] text-white text-xs font-bold tracking-wider transition-colors"
                                     >
@@ -240,10 +234,10 @@ export default function RewardsPage() {
                                 <span className="absolute top-4.5 left-4.5 z-10 bg-[#2C120C] text-white text-[10px] font-black uppercase tracking-wider py-1.5 px-3 rounded-lg">
                                     500 PTS
                                 </span>
-                                <img 
-                                    src="https://images.unsplash.com/photo-1572490122747-3968b75cc699?auto=format&fit=crop&w=500&q=80" 
-                                    alt="Hazelnut Frappe" 
-                                    className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" 
+                                <img
+                                    src="https://images.unsplash.com/photo-1572490122747-3968b75cc699?auto=format&fit=crop&w=500&q=80"
+                                    alt="Hazelnut Frappe"
+                                    className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
                                 />
                             </div>
                             <div className="space-y-5 flex flex-col flex-1 justify-between text-center">
@@ -255,10 +249,10 @@ export default function RewardsPage() {
                                         Blended coffee, milk, and hazelnut syrup, finished with whipped cream.
                                     </p>
                                 </div>
-                                
+
                                 {/* Centered Add to Cart button */}
                                 <div className="w-full flex justify-center pt-2">
-                                    <button 
+                                    <button
                                         onClick={() => handleAddRewardToCart(500, "Hazelnut Frappe (500 PTS)", "b1")}
                                         className="px-8 py-2.5 rounded-lg bg-[#2C120C] hover:bg-[#4A241A] text-white text-xs font-bold tracking-wider transition-colors"
                                     >
@@ -281,7 +275,7 @@ export default function RewardsPage() {
                     </h2>
 
                     <div className="space-y-4 max-w-5xl">
-                        
+
                         {/* Activity 1 - Border and rounded card, light background */}
                         <div className="bg-[#FAF6F0] rounded-2xl border border-[#2C1A14]/10 p-5 flex items-center justify-between shadow-sm hover:shadow-md transition-shadow">
                             <div className="flex items-center gap-4">
