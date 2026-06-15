@@ -1,19 +1,26 @@
 import type { Metadata } from "next";
-import { Lora, Outfit } from "next/font/google";
+import { Inter, Montserrat, Playfair_Display } from "next/font/google";
 import "./globals.css";
 import { ReduxProvider } from "@/providers/ReduxProvider";
 import { CartProvider } from "@/providers/CartProvider";
 
-const lora = Lora({
+const inter = Inter({
     subsets: ["latin"],
-    weight: ["400", "500", "600", "700"],
+    weight: ["300", "400", "500", "600", "700", "800", "900"],
+    variable: "--font-sans",
+});
+
+const montserrat = Montserrat({
+    subsets: ["latin"],
+    weight: ["300", "400", "500", "600", "700", "800", "900"],
     variable: "--font-serif",
 });
 
-const outfit = Outfit({
+const playfairDisplay = Playfair_Display({
     subsets: ["latin"],
-    weight: ["300", "400", "500", "600", "700"],
-    variable: "--font-sans",
+    style: ["normal", "italic"],
+    weight: ["400", "500", "600", "700", "800", "900"],
+    variable: "--font-italic",
 });
 
 export const metadata: Metadata = {
@@ -31,7 +38,7 @@ export default function RootLayout({
 }>) {
     return (
         <html lang="en" className="scroll-smooth">
-            <body className={`${outfit.variable} ${lora.variable} font-sans antialiased bg-background text-foreground`}>
+            <body className={`${inter.variable} ${montserrat.variable} ${playfairDisplay.variable} font-sans antialiased bg-background text-foreground`}>
                 <ReduxProvider>
                     <CartProvider>
                         {children}

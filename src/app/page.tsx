@@ -161,7 +161,7 @@ export default function WebsiteHome() {
                                 <h1 className="font-sans text-6xl md:text-7xl font-black tracking-tight text-white leading-tight animate-fade-in">
                                     Bean Fien.
                                 </h1>
-                                <h2 className="font-serif text-4xl md:text-5xl font-normal italic text-[#E05A2B] leading-tight">
+                                <h2 className="font-italic text-5xl md:text-6xl font-bold italic text-[#E05A2B] leading-tight font-bold">
                                     A vibe for the ride
                                 </h2>
                             </div>
