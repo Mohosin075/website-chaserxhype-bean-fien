@@ -82,7 +82,7 @@ export default function Navbar({ theme = "light", transparent = false }: NavbarP
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-[72px] flex items-center justify-between">
                 {/* Logo */}
                 <Link href="/" className="flex items-center gap-3 group flex-shrink-0">
-                    <Logo className="w-11 h-11 transition-transform duration-300 group-hover:scale-105" />
+                    <Logo className="w-16 h-16 transition-transform duration-300 group-hover:scale-105" />
                     {!isDark && (
                         <div className="hidden sm:block text-left">
                             <span className="font-serif text-lg font-bold tracking-wider block leading-none text-[#2C1A14]">Bean Fien</span>
